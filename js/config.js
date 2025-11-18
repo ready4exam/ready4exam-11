@@ -38,7 +38,7 @@ const SUPABASE_ANON_KEY =
 console.log("[Config] Initializing Supabase…");
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   db: { schema: "public", persistSession: false },
-  auth: { persistSession: false, autoRefreshToken: false },
+  auth: { persistSession: true, autoRefreshToken: true },
 });
 console.log("[Config] Supabase initialized:", SUPABASE_URL);
 
