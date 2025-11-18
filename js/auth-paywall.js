@@ -66,6 +66,7 @@ export async function signInWithGoogle() {
   }
 }
 
+
 // -----------------------------------------------------------------------------
 // Sign Out
 // -----------------------------------------------------------------------------
@@ -81,3 +82,7 @@ export async function signOut() {
 export function checkAccess() {
   return true;
 }
+initializeAuthListener();
+// Auto-init listener for quiz engine
+
+
