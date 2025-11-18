@@ -1,6 +1,6 @@
 // js/auth-paywall.js
 // -----------------------------------------------------------------------------
-// Handles Google Sign-In and Auth state for Ready4Exam
+// Handles Google Sign-In + Sync Firebase Auth with Supabase Auth
 // -----------------------------------------------------------------------------
 
 import {
@@ -8,7 +8,7 @@ import {
   signInWithPopup,
   signInWithRedirect,
   onAuthStateChanged,
-  signOut as fbSignOut
+  signOut as fbSignOut,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 import { getInitializedClients } from "./config.js";
@@ -16,14 +16,31 @@ import { getInitializedClients } from "./config.js";
 let authListenerInitialized = false;
 
 // -----------------------------------------------------------------------------
-// Initialize Auth Listener (MUST RUN IN QUIZ PAGE)
+// 🔄 Sync Firebase User Token → Supabase Session
+// -----------------------------------------------------------------------------
+async function syncFirebaseToSupabase(user) {
+  const { supabase } = getInitializedClients();
+  if (!user) return;
+
+  const token = await user.getIdToken(true);
+
+  await supabase.auth.setSession({
+    access_token: token,
+    refresh_token: token
+  });
+
+  console.log("[AUTH] 🔗 Firebase token synced to Supabase session");
+}
+
+// -----------------------------------------------------------------------------
+// Initialize Auth Listener (MUST RUN ON QUIZ PAGE)
 // -----------------------------------------------------------------------------
 export function initializeAuthListener() {
   const { auth } = getInitializedClients();
   if (authListenerInitialized) return;
   authListenerInitialized = true;
 
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     console.log("[AUTH] State:", user?.email || "No user");
 
     const paywall = document.getElementById("paywall-screen");
@@ -31,11 +48,13 @@ export function initializeAuthListener() {
 
     if (user) {
       console.log("[AUTH] User signed in");
-      // Hide paywall, show quiz container
+
+      await syncFirebaseToSupabase(user); // ⭐ KEY FIX
+
       paywall?.classList.add("hidden");
       quizContent?.classList.remove("hidden");
 
-      // Notify quiz engine to start
+      // Notify quiz engine auth is ready
       document.dispatchEvent(new CustomEvent("r4e-auth-ready", { detail: user }));
 
     } else {
@@ -49,7 +68,7 @@ export function initializeAuthListener() {
 }
 
 // -----------------------------------------------------------------------------
-// Sign in with Google
+// Sign in with Google (Popup first, fallback to redirect)
 // -----------------------------------------------------------------------------
 export async function signInWithGoogle() {
   const { auth } = getInitializedClients();
@@ -66,7 +85,6 @@ export async function signInWithGoogle() {
   }
 }
 
-
 // -----------------------------------------------------------------------------
 // Sign Out
 // -----------------------------------------------------------------------------
@@ -78,11 +96,9 @@ export async function signOut() {
   document.getElementById("quiz-content")?.classList.add("hidden");
 }
 
-// Temporary bypass always returns true — Quiz Engine checks this
+// -----------------------------------------------------------------------------
+// TEMPORARY ACCESS CHECK (Always true for Phase-3)
+// -----------------------------------------------------------------------------
 export function checkAccess() {
   return true;
 }
-initializeAuthListener();
-// Auto-init listener for quiz engine
-
-
