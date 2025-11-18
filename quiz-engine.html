@@ -6,6 +6,13 @@
   <title>Ready4Exam | Quiz Engine</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- JS Modules (Correct Load Order) -->
+<script type="module" src="./js/config.js?v=3.1"></script>
+<script type="module" src="./js/ui-renderer.js?v=3.1"></script>
+<script type="module" src="./js/api.js?v=3.1"></script>
+<script type="module" src="./js/auth-paywall.js?v=3.1"></script>
+<script type="module" src="./js/quiz-engine.js?v=3.1"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script>
     tailwind.config = {
