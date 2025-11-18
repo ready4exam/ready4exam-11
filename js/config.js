@@ -1,7 +1,6 @@
 // js/config.js
 // -------------------------------------------------------------
-// Phase-3 Clean Config
-// Firebase Auth + Supabase Session for Quiz Access
+// Phase-3 Clean Configuration (Firebase + Supabase)
 // -------------------------------------------------------------
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -11,14 +10,9 @@ import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.6.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// -------------------------------------------------------------
-// Firebase Config injected via HTML
-// -------------------------------------------------------------
+// Firebase Config (Injected from HTML)
 const firebaseConfig = JSON.parse(window.__firebase_config);
 
-// -------------------------------------------------------------
-// Firebase Initialization
-// -------------------------------------------------------------
 console.log("[Config] Initializing Firebase…");
 export const firebaseApp = initializeApp(firebaseConfig);
 export const firebaseAuth = getAuth(firebaseApp);
@@ -27,7 +21,7 @@ export const analytics = getAnalytics(firebaseApp);
 console.log("[Config] Firebase initialized.");
 
 // -------------------------------------------------------------
-// Supabase Initialization — With Session support
+// Supabase
 // -------------------------------------------------------------
 const SUPABASE_URL = "https://zqhzekzilalbszpfwxhn.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -37,39 +31,26 @@ console.log("[Config] Initializing Supabase…");
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: true,
-    autoRefreshToken: true,
-  },
-  global: { headers: {} },
+    autoRefreshToken: true
+  }
 });
-
 console.log("[Config] Supabase initialized:", SUPABASE_URL);
 
-// ------------------------------------------------------------------
-// Exported Client Access
-// ------------------------------------------------------------------
+// Provide clients to other scripts
 export function getInitializedClients() {
   return {
-    app: firebaseApp,
     auth: firebaseAuth,
     db: firebaseDB,
     supabase,
   };
 }
 
-// ------------------------------------------------------------------
-// Auth helper used by API + Quiz Engine
-// ------------------------------------------------------------------
+// Helper
 export function getAuthUser() {
   return firebaseAuth?.currentUser || null;
 }
 
-// ------------------------------------------------------------------
-// Analytics wrapper
-// ------------------------------------------------------------------
 export function logAnalyticsEvent(event, data = {}) {
-  try {
-    logEvent(analytics, event, data);
-  } catch (err) {
-    console.warn("[Config] Analytics failed:", err.message);
-  }
+  try { logEvent(analytics, event, data); }
+  catch (e) { console.warn("[Analytics Error]", e); }
 }
