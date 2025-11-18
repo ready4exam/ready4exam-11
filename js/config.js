@@ -71,3 +71,6 @@ export function logAnalyticsEvent(event, data = {}) {
     console.warn("[Config] Analytics failed:", e);
   }
 }
+export async function initializeServices() {
+  return true; // Minimal patch
+}
