@@ -1,89 +1,95 @@
-// js/auth-paywall.js (Final Fix)
-// -----------------------------------------------------------------------------
-// Handles sign-in/out and authentication state
-// -----------------------------------------------------------------------------
+// js/auth-paywall.js
+// -------------------------------------------------------------
+// Phase-3 Auth Layer (Firebase-only Auth, Supabase anonymous)
+// -------------------------------------------------------------
+
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  onAuthStateChanged,
+  signOut as fbSignOut
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 import { getInitializedClients } from "./config.js";
-import {
-    GoogleAuthProvider,
-    getRedirectResult as firebaseGetRedirectResult,
-    signInWithPopup,
-    signInWithRedirect,
-    onAuthStateChanged,
-    signOut as firebaseSignOut,
-    setPersistence,
-    browserLocalPersistence,
-} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import * as UI from "./ui-renderer.js"; // Assuming UI has showAuthLoading/hideAuthLoading
 
-const LOG = "[AUTH]";
-let externalOnAuthChange = null;
-let isSigningIn = false;
+let listenerSetup = false;
 
-const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({ prompt: "select_account" });
+export function initializeAuthListener() {
+  if (listenerSetup) return;
+  listenerSetup = true;
 
-// ❌ The old error came from a helper here. We remove it entirely.
+  const { auth } = getInitializedClients();
 
-function internalAuthChangeHandler(user) {
-    console.log(LOG, "Auth state changed →", user ? user.uid : "Signed Out");
-    if (typeof externalOnAuthChange === "function") externalOnAuthChange(user);
-}
+  onAuthStateChanged(auth, async (user) => {
+    console.log("[AUTH] State:", user?.email || "No user");
 
-export async function initializeAuthListener(onAuthChangeCallback = null) {
-    // 🔑 THE FIX: Get the initialized auth object only AFTER the main function has called initializeServices()
-    const { auth } = getInitializedClients();
-    
-    await setPersistence(auth, browserLocalPersistence);
-    try {
-        const redirectResult = await firebaseGetRedirectResult(auth);
-        if (redirectResult?.user) console.log(LOG, "Restored user:", redirectResult.user.uid);
-    } catch (err) {
-        console.warn(LOG, "Redirect restore error:", err.message);
+    const paywall = document.getElementById("paywall-screen");
+    const quizContent = document.getElementById("quiz-content");
+    const logoutBtn = document.getElementById("logout-nav-btn");
+
+    if (user) {
+      console.log("[AUTH] User signed in");
+      console.log("[AUTH] Firebase login OK — Supabase stays anonymous.");
+
+      // UI updates
+      paywall?.classList.add("hidden");
+      quizContent?.classList.remove("hidden");
+      logoutBtn?.classList.remove("hidden");
+
+      // Notify quiz engine
+      document.dispatchEvent(
+        new CustomEvent("r4e-auth-ready", { detail: user })
+      );
+
+    } else {
+      console.log("[AUTH] Logged out → Show Paywall");
+      paywall?.classList.remove("hidden");
+      quizContent?.classList.add("hidden");
+      logoutBtn?.classList.add("hidden");
     }
-    if (onAuthChangeCallback) externalOnAuthChange = onAuthChangeCallback;
-    onAuthStateChanged(auth, internalAuthChangeHandler);
-    console.log(LOG, "Auth listener initialized.");
+  });
+
+  console.log("[AUTH] Listener Initialized");
 }
 
+// -------------------------------------------------------------
+// Google Sign-In
+// -------------------------------------------------------------
 export async function signInWithGoogle() {
-    // 🔑 THE FIX: Get the initialized auth object when the user clicks the button
-    const { auth } = getInitializedClients();
-    if (isSigningIn) return;
-    isSigningIn = true;
-    try {
-        UI.showAuthLoading("Opening Google Sign-In...");
-        const result = await signInWithPopup(auth, googleProvider);
-        console.log(LOG, "Popup sign-in success:", result.user?.uid);
-        UI.hideAuthLoading();
-        return result;
-    } catch (popupError) {
-        const fallbackCodes = ["auth/popup-blocked", "auth/cancelled-popup-request", "auth/web-storage-unsupported"];
-        if (fallbackCodes.includes(popupError.code)) {
-            console.warn(LOG, "Popup blocked → fallback to redirect.");
-            await signInWithRedirect(auth, googleProvider);
-        } else {
-            console.error(LOG, "Popup error:", popupError);
-            UI.hideAuthLoading();
-            throw popupError;
-        }
-    } finally {
-        isSigningIn = false;
-    }
+  const { auth } = getInitializedClients();
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+
+  try {
+    console.log("[AUTH] Popup sign-in…");
+    await signInWithPopup(auth, provider);
+  } catch (err) {
+    console.warn("[AUTH] Popup failed:", err?.code);
+    console.log("[AUTH] Switching to redirect mode…");
+    await signInWithRedirect(auth, provider);
+  }
 }
 
+// -------------------------------------------------------------
+// Sign Out
+// -------------------------------------------------------------
 export async function signOut() {
-    // 🔑 THE FIX: Get the initialized auth object when the user clicks sign out
-    const { auth } = getInitializedClients();
-    await firebaseSignOut(auth);
-    console.log(LOG, "User signed out.");
+  const { auth } = getInitializedClients();
+
+  await fbSignOut(auth).catch((e) =>
+    console.warn("[AUTH] Firebase signOut error:", e)
+  );
+
+  console.log("[AUTH] Signed Out → UI reset");
+
+  document.getElementById("paywall-screen")?.classList.remove("hidden");
+  document.getElementById("quiz-content")?.classList.add("hidden");
 }
 
+// -------------------------------------------------------------
+// Compatibility stub
+// -------------------------------------------------------------
 export function checkAccess() {
-    try {
-        // 🔑 THE FIX: Check access lazily
-        return !!getInitializedClients().auth.currentUser;
-    } catch {
-        return false;
-    }
+  return true;
 }
