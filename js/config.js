@@ -36,11 +36,17 @@ const SUPABASE_ANON_KEY =
 
 console.log("[Config] Initializing Supabase…");
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true
+ auth: {
+    persistSession: false,   // ⛔ Stop saving session
+    autoRefreshToken: false, // ⛔ Stop refreshing
+    detectSessionInUrl: false // ⛔ Do NOT auto-read tokens
   },
+  global: {
+    headers: {
+      // IMPORTANT: Force Supabase to always treat user as PUBLIC
+      Authorization: ""
+    }
+  }
 });
 console.log("[Config] Supabase initialized:", SUPABASE_URL);
 
