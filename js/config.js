@@ -36,18 +36,19 @@ const SUPABASE_ANON_KEY =
 
 console.log("[Config] Initializing Supabase…");
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
- auth: {
-    persistSession: false,   // ⛔ Stop saving session
-    autoRefreshToken: false, // ⛔ Stop refreshing
-    detectSessionInUrl: false // ⛔ Do NOT auto-read tokens
+  auth: {
+    persistSession: false,          // ⛔ Never store sessions
+    autoRefreshToken: false,        // ⛔ Never refresh tokens
+    detectSessionInUrl: false,      // ⛔ Never read JWT from URL
+    storage: undefined              // ⛔ No IndexedDB / localStorage
   },
   global: {
     headers: {
-      // IMPORTANT: Force Supabase to always treat user as PUBLIC
-      Authorization: ""
+      Authorization: ""             // ⛔ Force public mode always
     }
   }
 });
+
 console.log("[Config] Supabase initialized:", SUPABASE_URL);
 
 // Provide Unified Access
