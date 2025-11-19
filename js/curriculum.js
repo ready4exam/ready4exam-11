@@ -265,11 +265,11 @@ export const curriculum = {
       {
         "chapter_title": "Sets",
         "table_id": "sets_quiz",
-        "section": "Commerce"
+        "section": "Commerce/Science"
       },
       {
         "chapter_title": "Relations and Functions",
-        "table_id": "Ch 2",
+        "table_id": "relations_functions_quiz",
         "section": "Commerce"
       },
       {
