@@ -150,7 +150,7 @@ export const curriculum = {
     "Biology": [
       {
         "chapter_title": "The Living World",
-        "table_id": "Ch 1",
+        "table_id": "the_world_quiz",
         "section": "Science"
       },
       {
