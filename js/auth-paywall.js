@@ -1,4 +1,4 @@
-yes or no - is this auth-paywal.js working as intended performing dry run across all files to check quiz is loading and performing all the tasks : // js/auth-paywall.js
+// js/auth-paywall.js
 import {
   GoogleAuthProvider,
   signInWithPopup,
