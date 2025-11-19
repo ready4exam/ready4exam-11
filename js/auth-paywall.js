@@ -27,26 +27,25 @@ export function initializeAuthListener() {
     if (user) {
       console.log("[AUTH] User signed in");
 
-      // --- BRIDGE: Firebase ID token -> Supabase client session ---
       try {
         const token = await user.getIdToken(false);
         if (supabase?.auth?.setSession) {
-          await supabase.auth.setSession({ access_token: token, refresh_token: token });
-          console.log("[AUTH] Supabase session set from Firebase token");
+          await supabase.auth.setSession({
+            access_token: token,
+            refresh_token: token
+          });
+          console.log("[AUTH] Supabase session set");
         }
       } catch (e) {
-        console.warn("[AUTH] Could not set Supabase session:", e);
+        console.warn("[AUTH] Supabase session error:", e);
       }
 
-      // UI updates
       paywall?.classList.add("hidden");
       quizContent?.classList.remove("hidden");
       logoutBtn?.classList.remove("hidden");
 
-      // notify engine
       document.dispatchEvent(new CustomEvent("r4e-auth-ready", { detail: user }));
     } else {
-      console.log("[AUTH] No user → Show Paywall");
       paywall?.classList.remove("hidden");
       quizContent?.classList.add("hidden");
       logoutBtn?.classList.add("hidden");
@@ -66,7 +65,6 @@ export async function signInWithGoogle() {
     await signInWithPopup(auth, provider);
   } catch (err) {
     console.warn("[AUTH] Popup failed:", err?.code);
-    console.log("[AUTH] Switching to Redirect...");
     await signInWithRedirect(auth, provider);
   }
 }
@@ -74,8 +72,11 @@ export async function signInWithGoogle() {
 export async function signOut() {
   const { auth, supabase } = getInitializedClients();
   await fbSignOut(auth);
-  try { if (supabase?.auth?.signOut) await supabase.auth.signOut(); } catch(e){console.warn("Supabase signOut:", e);}
-  console.log("[AUTH] Signed Out → Paywall shown");
+  try {
+    if (supabase?.auth?.signOut) await supabase.auth.signOut();
+  } catch (e) {
+    console.warn("Supabase signOut:", e);
+  }
   document.getElementById("paywall-screen")?.classList.remove("hidden");
   document.getElementById("quiz-content")?.classList.add("hidden");
 }
