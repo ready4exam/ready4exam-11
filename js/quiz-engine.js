@@ -1,10 +1,9 @@
 // js/quiz-engine.js
 // -----------------------------------------------------------
-// Phase-4 Quiz Engine (Auth-Synced Build, Config Aware)
+// Phase-4 Quiz Engine (Auth-Callback Synced)
 // -----------------------------------------------------------
 
 import { fetchQuiz, saveResult } from "./api.js";
-import { initializeServices } from "./config.js";
 import { renderQuestion, renderResultsScreen, registerResultButtons } from "./ui-renderer.js";
 
 let state = {
@@ -16,36 +15,23 @@ let state = {
 };
 
 // -----------------------------------------------------------
-// INIT LISTENERS AND SERVICES ON LOAD
+// AUTH READY TRIGGER (Exported Callback Function)
+// This is called by auth-paywall.js after a user signs in.
 // -----------------------------------------------------------
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    // 1. Initialize all required clients (Firebase, Supabase, GA)
-    await initializeServices();
-    
-    // 2. Auth listener is initialized separately in auth-paywall.js 
-    //    and will dispatch 'r4e-auth-ready' upon sign-in.
-    
-  } catch (error) {
-    console.error("[ENGINE] Initialization failed:", error);
-    document.getElementById("status-message").textContent = "Fatal Error: Failed to initialize services.";
-    document.getElementById("status-message").classList.remove("hidden");
-  }
-});
+export function onAuthReady(user) {
+    if (user) {
+        console.log("[ENGINE] Auth Ready (Callback) → Loading quiz now…");
+        startQuiz(); 
+    } else {
+        console.log("[ENGINE] User signed out/not ready.");
+    }
+}
 
 // -----------------------------------------------------------
-// AUTH READY EVENT → START QUIZ
-// -----------------------------------------------------------
-document.addEventListener("r4e-auth-ready", () => {
-  console.log("[ENGINE] Auth Ready → Loading quiz now...");
-  startQuiz(); 
-});
-
-// -----------------------------------------------------------
-// MAIN QUIZ LOADER (Runs ONLY after sign-in)
+// MAIN QUIZ LOADER 
 // -----------------------------------------------------------
 async function startQuiz() {
-  console.log("[ENGINE] Starting Quiz Engine...");
+  console.log("[ENGINE] Starting Quiz Engine…");
 
   // Reset state
   state.index = 0;
@@ -55,7 +41,7 @@ async function startQuiz() {
   state.table = params.get("table");
   state.difficulty = params.get("difficulty");
 
-  document.getElementById("chapter-name-display").textContent = state.table.replace(/_/g, ' ');
+  // document.getElementById("chapter-name-display").textContent = state.table.replace(/_/g, ' '); // Removed as this ID wasn't in the HTML
 
   try {
     const questions = await fetchQuiz({
@@ -91,7 +77,7 @@ function renderCurrentQuestion() {
   const q = state.questions[state.index];
   if (!q) return;
 
-  renderQuestion(state); // Delegate rendering to ui-renderer.js
+  renderQuestion(state); // Delegate HTML generation to ui-renderer.js
 
   document.getElementById("difficulty-display").textContent =
     `Difficulty: ${state.difficulty}`;
@@ -116,7 +102,7 @@ function setupOptionClickHandlers(qid) {
       const selected = lb.getAttribute("data-option");
       state.answers[qid] = selected;
 
-      // Delegate highlighting to ui-renderer.js
+      // Delegate highlighting logic
       document.querySelectorAll(".option-label").forEach(button => {
         const opt = button.getAttribute("data-option");
         button.classList.toggle("border-blue-600", opt === selected);
@@ -171,6 +157,6 @@ document.getElementById("submit-btn").onclick = async () => {
     answers: state.answers,
   });
   
-  // Setup retry buttons
+  // Setup retry buttons (defined in ui-renderer.js)
   registerResultButtons(state.table);
 };
