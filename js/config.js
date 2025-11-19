@@ -1,6 +1,6 @@
 // js/config.js
 // -------------------------------------------------------------
-// Phase-3 Clean Configuration (Firebase + Supabase)
+// Phase-3 + Firebase Auth + Supabase (Anon) | Final Synced
 // -------------------------------------------------------------
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -10,47 +10,46 @@ import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.6.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// Firebase Config (Injected from HTML)
+// Firebase Config (injected from HTML page)
 const firebaseConfig = JSON.parse(window.__firebase_config);
 
+// ---------------------- Firebase Init -----------------------
 console.log("[Config] Initializing Firebase…");
 export const firebaseApp = initializeApp(firebaseConfig);
+
 export const firebaseAuth = getAuth(firebaseApp);
+firebaseAuth.useDeviceLanguage();
+
 export const firebaseDB = getFirestore(firebaseApp);
 export const analytics = getAnalytics(firebaseApp);
+
 console.log("[Config] Firebase initialized.");
 
-// -------------------------------------------------------------
-// Supabase
-// -------------------------------------------------------------
+// ---------------------- Supabase Init -----------------------
 const SUPABASE_URL = "https://zqhzekzilalbszpfwxhn.supabase.co";
 const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxaHpla3ppbGFsYnN6cGZ3eGhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyNjcyNjcsImV4cCI6MjA3Nzg0MzI2N30.RUa39KAfnBjLgaV9HTRfViPPXB861EOpCT2bv35q6Js";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxaHpla3ppbGFsYnN6cGZ3eGhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyNjcyNjcsImV4cCI6MjA3Nzg0MzI2N30.RUa39KAfnBjLgaV9HTRfViPPXB861EOpCT2bv35q6Js";
 
 console.log("[Config] Initializing Supabase…");
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: true,
-    autoRefreshToken: true
-  }
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  },
 });
 console.log("[Config] Supabase initialized:", SUPABASE_URL);
 
-// Provide clients to other scripts
+// Provide Unified Access
 export function getInitializedClients() {
-  return {
-    auth: firebaseAuth,
-    db: firebaseDB,
-    supabase,
-  };
+  return { auth: firebaseAuth, supabase, db: firebaseDB };
 }
 
-// Helper
 export function getAuthUser() {
-  return firebaseAuth?.currentUser || null;
+  return firebaseAuth.currentUser || null;
 }
 
-export function logAnalyticsEvent(event, data = {}) {
-  try { logEvent(analytics, event, data); }
-  catch (e) { console.warn("[Analytics Error]", e); }
+export function logAnalyticsEvent(evt, data = {}) {
+  try { logEvent(analytics, evt, data); }
+  catch (e) { console.warn("[Analytics] Failed:", e); }
 }
