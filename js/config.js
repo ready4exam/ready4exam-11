@@ -1,5 +1,9 @@
 // js/config.js
 // -------------------------------------------------------------
+// Phase-3 Clean Config (Eager Initialization - No Lazy Init)
+// 100% Compatible with quiz-engine, auth-paywall, api.js
+// -------------------------------------------------------------
+// -------------------------------------------------------------
 // Phase-3 + Firebase Auth + Supabase (Anon) | Final Synced
 // -------------------------------------------------------------
 
