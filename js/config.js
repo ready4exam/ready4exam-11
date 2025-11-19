@@ -45,7 +45,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   global: {
     headers: {
       'apikey': SUPABASE_ANON_KEY ,
-      Authorization: ""             // ⛔ Force public mode always
+              // ⛔ Force public mode always
     }
   }
 });
