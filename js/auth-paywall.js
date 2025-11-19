@@ -1,13 +1,10 @@
-// js/auth-paywall.js
-// -------------------------------------------------------------
-// Google Sign-In + Auth Gate 100% Synced for Quiz Engine
-// -------------------------------------------------------------
-
+yes or no - is this auth-paywal.js working as intended performing dry run across all files to check quiz is loading and performing all the tasks : // js/auth-paywall.js
 import {
   GoogleAuthProvider,
   signInWithPopup,
-  signOut as fbSignOut,
-  onAuthStateChanged
+  signInWithRedirect,
+  onAuthStateChanged,
+  signOut as fbSignOut
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 import { getInitializedClients } from "./config.js";
@@ -18,24 +15,38 @@ export function initializeAuthListener() {
   if (listenerSetup) return;
   listenerSetup = true;
 
-  const { auth } = getInitializedClients();
+  const { auth, supabase } = getInitializedClients();
 
-  onAuthStateChanged(auth, (user) => {
-    console.log("[AUTH] State:", user?.email || "NO USER");
+  onAuthStateChanged(auth, async (user) => {
+    console.log("[AUTH] State:", user?.email || "No user");
 
     const paywall = document.getElementById("paywall-screen");
     const quizContent = document.getElementById("quiz-content");
     const logoutBtn = document.getElementById("logout-nav-btn");
 
     if (user) {
-      console.log("[AUTH] Signed In UI Update");
+      console.log("[AUTH] User signed in");
+
+      // --- BRIDGE: Firebase ID token -> Supabase client session ---
+      try {
+        const token = await user.getIdToken(false);
+        if (supabase?.auth?.setSession) {
+          await supabase.auth.setSession({ access_token: token, refresh_token: token });
+          console.log("[AUTH] Supabase session set from Firebase token");
+        }
+      } catch (e) {
+        console.warn("[AUTH] Could not set Supabase session:", e);
+      }
+
+      // UI updates
       paywall?.classList.add("hidden");
       quizContent?.classList.remove("hidden");
       logoutBtn?.classList.remove("hidden");
 
+      // notify engine
       document.dispatchEvent(new CustomEvent("r4e-auth-ready", { detail: user }));
     } else {
-      console.log("[AUTH] No User UI Update");
+      console.log("[AUTH] No user → Show Paywall");
       paywall?.classList.remove("hidden");
       quizContent?.classList.add("hidden");
       logoutBtn?.classList.add("hidden");
@@ -51,13 +62,24 @@ export async function signInWithGoogle() {
   provider.setCustomParameters({ prompt: "select_account" });
 
   try {
+    console.log("[AUTH] Using Popup...");
     await signInWithPopup(auth, provider);
-  } catch (e) {
-    console.warn("[AUTH] Popup failed", e);
+  } catch (err) {
+    console.warn("[AUTH] Popup failed:", err?.code);
+    console.log("[AUTH] Switching to Redirect...");
+    await signInWithRedirect(auth, provider);
   }
 }
 
 export async function signOut() {
-  const { auth } = getInitializedClients();
+  const { auth, supabase } = getInitializedClients();
   await fbSignOut(auth);
+  try { if (supabase?.auth?.signOut) await supabase.auth.signOut(); } catch(e){console.warn("Supabase signOut:", e);}
+  console.log("[AUTH] Signed Out → Paywall shown");
+  document.getElementById("paywall-screen")?.classList.remove("hidden");
+  document.getElementById("quiz-content")?.classList.add("hidden");
+}
+
+export function checkAccess() {
+  return true;
 }
