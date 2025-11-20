@@ -1,95 +1,137 @@
 // js/auth-paywall.js
-// -------------------------------------------------------------
-// Phase-3 Auth Layer (Firebase-only Auth, Supabase anonymous)
-// -------------------------------------------------------------
-
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-  onAuthStateChanged,
-  signOut as fbSignOut
-} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+// ------------------------------------------------------------
+// Phase-6 Auth Handler (JWT Sync & Loop Fix)
+// ------------------------------------------------------------
 
 import { getInitializedClients } from "./config.js";
+import { showView, showAuthLoading, hideAuthLoading } from "./ui-renderer.js";
 
-let listenerSetup = false;
+import {
+    GoogleAuthProvider,
+    getRedirectResult as firebaseGetRedirectResult,
+    signInWithPopup,
+    signInWithRedirect,
+    onAuthStateChanged,
+    signOut as firebaseSignOut,
+    setPersistence,
+    browserLocalPersistence,
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-export function initializeAuthListener() {
-  if (listenerSetup) return;
-  listenerSetup = true;
+const LOG = "[AUTH]";
+let externalOnAuthChange = null;
+let isSigningIn = false;
 
-  const { auth } = getInitializedClients();
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
 
-  onAuthStateChanged(auth, async (user) => {
-    console.log("[AUTH] State:", user?.email || "No user");
 
-    const paywall = document.getElementById("paywall-screen");
-    const quizContent = document.getElementById("quiz-content");
-    const logoutBtn = document.getElementById("logout-nav-btn");
+/**
+ * 🔑 CRITICAL FIX: Syncs the Firebase ID Token with Supabase.
+ * This ensures the Supabase client sends the required Authorization: Bearer <JWT> header.
+ */
+async function syncSupabaseAuth(user) {
+    const { supabase } = getInitializedClients();
+    
+    // 1. Get the Firebase ID token
+    const idToken = await user.getIdToken();
+    
+    try {
+        // 2. Pass the Firebase ID token to Supabase to sign in/create a Supabase session
+        const { error } = await supabase.auth.signInWithIdToken({
+            provider: 'google', // Must match your primary Firebase provider
+            token: idToken,
+        });
+
+        if (error) {
+            console.error(LOG, "Supabase token sync failed:", error.message);
+        } else {
+            console.log(LOG, "Supabase token sync successful. Full authorization should now be active.");
+        }
+
+    } catch (e) {
+        console.error(LOG, "Error getting ID Token or syncing:", e);
+    }
+}
+
+
+function internalAuthChangeHandler(user) {
+    console.log(LOG, "Auth state changed →", user ? user.uid : "Signed Out");
 
     if (user) {
-      console.log("[AUTH] User signed in");
-      console.log("[AUTH] Firebase login OK — Supabase stays anonymous.");
-
-      // UI updates
-      paywall?.classList.add("hidden");
-      quizContent?.classList.remove("hidden");
-      logoutBtn?.classList.remove("hidden");
-
-      // Notify quiz engine
-      document.dispatchEvent(
-        new CustomEvent("r4e-auth-ready", { detail: user })
-      );
-
+        // --- Call the sync function immediately after Firebase reports sign-in ---
+        syncSupabaseAuth(user); 
+        // ------------------------------------------------------------------------
+        
+        showView("quiz-content");
+        hideAuthLoading();
     } else {
-      console.log("[AUTH] Logged out → Show Paywall");
-      paywall?.classList.remove("hidden");
-      quizContent?.classList.add("hidden");
-      logoutBtn?.classList.add("hidden");
+        // Ensure Supabase user is also cleared on Firebase sign-out (optional but clean)
+        const { supabase } = getInitializedClients();
+        supabase.auth.signOut();
+        
+        showView("paywall-screen");
     }
-  });
-
-  console.log("[AUTH] Listener Initialized");
+    
+    // Always call the external callback (onAuthReady in quiz-engine.js)
+    if (typeof externalOnAuthChange === "function") externalOnAuthChange(user);
 }
 
-// -------------------------------------------------------------
-// Google Sign-In
-// -------------------------------------------------------------
+
+export async function initializeAuthListener(onAuthChangeCallback = null) {
+    const { auth } = getInitializedClients(); 
+    
+    // Attempt to set local persistence first
+    await setPersistence(auth, browserLocalPersistence);
+
+    try {
+        // Handle redirect result if a previous sign-in used redirect
+        const redirectResult = await firebaseGetRedirectResult(auth);
+        if (redirectResult?.user) console.log(LOG, "Restored user:", redirectResult.user.uid);
+    } catch (err) {
+        // Log, but do not block, on redirect errors
+        console.warn(LOG, "Redirect restore error:", err.message);
+    }
+    
+    // Set the external callback from quiz-engine.js
+    if (onAuthChangeCallback) externalOnAuthChange = onAuthChangeCallback;
+
+    // Start the auth listener
+    onAuthStateChanged(auth, internalAuthChangeHandler);
+    console.log(LOG, "Auth listener initialized.");
+}
+
+
 export async function signInWithGoogle() {
-  const { auth } = getInitializedClients();
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: "select_account" });
+    const { auth } = getInitializedClients();
+    if (isSigningIn) return;
+    isSigningIn = true;
 
-  try {
-    console.log("[AUTH] Popup sign-in…");
-    await signInWithPopup(auth, provider);
-  } catch (err) {
-    console.warn("[AUTH] Popup failed:", err?.code);
-    console.log("[AUTH] Switching to redirect mode…");
-    await signInWithRedirect(auth, provider);
-  }
+    try {
+        showAuthLoading("Opening Google Sign-In...");
+        // Using signInWithPopup here, which is generally safer than redirect
+        const result = await signInWithPopup(auth, googleProvider);
+        console.log(LOG, "Popup sign-in success:", result.user?.uid);
+        hideAuthLoading();
+        return result;
+    } catch (popupError) {
+        // Fallback logic for pop-up errors (e.g., blocked pop-up)
+        const fallbackCodes = ["auth/popup-blocked", "auth/cancelled-popup-request", "auth/web-storage-unsupported"];
+        if (fallbackCodes.includes(popupError.code)) {
+            console.warn(LOG, "Popup blocked or error → fallback to redirect.");
+            await signInWithRedirect(auth, googleProvider);
+        } else {
+            console.error(LOG, "Popup/Sign-in error:", popupError);
+            hideAuthLoading();
+        }
+    } finally {
+        isSigningIn = false;
+    }
 }
 
-// -------------------------------------------------------------
-// Sign Out
-// -------------------------------------------------------------
+
 export async function signOut() {
-  const { auth } = getInitializedClients();
-
-  await fbSignOut(auth).catch((e) =>
-    console.warn("[AUTH] Firebase signOut error:", e)
-  );
-
-  console.log("[AUTH] Signed Out → UI reset");
-
-  document.getElementById("paywall-screen")?.classList.remove("hidden");
-  document.getElementById("quiz-content")?.classList.add("hidden");
-}
-
-// -------------------------------------------------------------
-// Compatibility stub
-// -------------------------------------------------------------
-export function checkAccess() {
-  return true;
+    const { auth, supabase } = getInitializedClients();
+    await firebaseSignOut(auth);
+    await supabase.auth.signOut(); // Explicitly sign out of Supabase as well
+    console.log(LOG, "User signed out.");
 }
