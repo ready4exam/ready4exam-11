@@ -3,7 +3,7 @@
 // FINAL Simplified Config (No Supabase Auth / No OIDC)
 // Firebase = Login
 // Supabase = Anonymous Reads Only
-// Firestore = Save Results
+// Firestore = Save Result 
 // -------------------------------------------------------------
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
