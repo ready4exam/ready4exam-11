@@ -269,8 +269,8 @@ export const curriculum = {
       },
       {
         "chapter_title": "Relations and Functions",
-        "table_id": "relations_functions_quiz",
-        "section": "Commerce/Science"
+        "table_id": "Ch 2",
+        "section": "Commerce"
       },
       {
         "chapter_title": "Trigonometric Functions",

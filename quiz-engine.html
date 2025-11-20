@@ -31,10 +31,18 @@
   </style>
 
   <!-- 🔥 CONFIG INJECTION BLOCK (Automation replaces placeholders) -->
-  <script>
-    window.__firebase_config = {
-      apiKey: "",
-      authDomain: "",
-      projectId: "",
-      storageBucket: "undefined",
-      messagingSenderId: "undefined",
+ <script>
+  window.__firebase_config = {
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "undefined",
+    messagingSenderId: "undefined",
+    appId: "",
+    measurementId: "undefined",
+
+    // Supabase (public anon)
+    supabaseUrl: "%%SUPABASE_URL_11%%",
+    supabaseAnonKey: "%%SUPABASE_ANON_KEY_11%%"
+  };
+</script>
