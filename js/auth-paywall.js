@@ -1,10 +1,5 @@
 // js/auth-paywall.js
-// ------------------------------------------------------------
-// FINAL Non-OIDC Version
-// Firebase ONLY → Controls UI access
-// Supabase is never authenticated → Public quiz reads
-// No token sync, no redirect loops, no signInWithIdToken()
-// ------------------------------------------------------------
+// Simplified — Firebase-only login. No OIDC. No Supabase token sync.
 
 import { initializeServices, getInitializedClients } from "./config.js";
 import { showView, showAuthLoading, hideAuthLoading } from "./ui-renderer.js";
@@ -19,20 +14,19 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 const LOG = "[AUTH]";
-let externalCallback = null;
-
+let externalOnAuthChange = null;
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
 
-export async function initializeAuthListener(onAuthReady = null) {
-  const { auth } = await initializeServices();
+export async function initializeAuthListener(callback = null) {
+  await initializeServices();
+  const { auth } = getInitializedClients();
 
-  externalCallback = onAuthReady;
-
+  if (callback) externalOnAuthChange = callback;
   await setPersistence(auth, browserLocalPersistence);
 
   onAuthStateChanged(auth, (user) => {
-    console.log(LOG, "Auth state →", user ? user.uid : "signed out");
+    console.log(LOG, "State →", user ? user.uid : "signed out");
 
     if (user) {
       showView("quiz-content");
@@ -41,28 +35,30 @@ export async function initializeAuthListener(onAuthReady = null) {
       showView("paywall-screen");
     }
 
-    if (externalCallback) externalCallback(user);
+    if (typeof externalOnAuthChange === "function")
+      externalOnAuthChange(user);
   });
 
-  console.log(LOG, "Auth listener ready.");
+  console.log(LOG, "Auth listener initialized.");
 }
 
 export async function signInWithGoogle() {
+  await initializeServices();
   const { auth } = getInitializedClients();
-  showAuthLoading("Opening Google Sign-In...");
+  showAuthLoading("Opening Google Login...");
 
   try {
-    const result = await signInWithPopup(auth, googleProvider);
-    console.log(LOG, "Google popup success:", result.user?.uid);
+    const res = await signInWithPopup(auth, googleProvider);
+    hideAuthLoading();
+    return res;
   } catch (e) {
-    console.error(LOG, "Google popup error:", e);
+    console.error(LOG, "Popup error:", e);
+    hideAuthLoading();
   }
-
-  hideAuthLoading();
 }
 
 export async function signOut() {
+  await initializeServices();
   const { auth } = getInitializedClients();
-  await firebaseSignOut(auth);
-  console.log(LOG, "Signed out.");
+  return firebaseSignOut(auth);
 }

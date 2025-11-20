@@ -1,10 +1,6 @@
 // js/config.js
-// -------------------------------------------------------------
-// FINAL Simplified Config (No Supabase Auth / No OIDC)
-// Firebase = Login
-// Supabase = Anonymous Reads Only
-// Firestore = Save Result 
-// -------------------------------------------------------------
+// Simplified config for Ready4Exam (Class repos) - Supabase ANON only
+// Expects window.__firebase_config to be provided in HTML by automation
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -19,49 +15,39 @@ let supabase = null;
 let analyticsInstance = null;
 
 export async function initializeServices() {
-  if (firebaseApp && supabase) {
-    return { auth: firebaseAuth, db: firebaseDB, supabase };
-  }
+  if (firebaseApp && supabase) return { auth: firebaseAuth, db: firebaseDB, supabase };
 
-  const cfg = JSON.parse(window.__firebase_config || "{}");
-  if (!cfg.apiKey) throw new Error("Firebase config missing in HTML.");
+  const cfg = window.__firebase_config;
+  if (!cfg?.apiKey) throw new Error("Firebase config missing");
 
-  // Firebase Init
+  // Firebase
   firebaseApp = initializeApp(cfg);
   firebaseAuth = getAuth(firebaseApp);
   firebaseDB = getFirestore(firebaseApp);
 
-  // Supabase Init (anonymous only)
-  const SUPABASE_URL = cfg.supabaseUrl;
-  const SUPABASE_ANON = cfg.supabaseAnonKey;
-
-  supabase = createSupabaseClient(SUPABASE_URL, SUPABASE_ANON, {
+  // Supabase ANON CLIENT ONLY
+  supabase = createSupabaseClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
     auth: { persistSession: false }
   });
 
-  window.supabase = supabase; // optional debugging
-  console.log("[Config] Supabase initialized (public-only).");
+  window.supabase = supabase; // helpful for debugging
 
-  // GA
   if (cfg.measurementId) {
-    analyticsInstance = getAnalytics(firebaseApp);
-    console.log("[Config] Google Analytics initialized.");
+    try { analyticsInstance = getAnalytics(firebaseApp) } catch(e) {}
   }
 
   return { auth: firebaseAuth, db: firebaseDB, supabase };
 }
 
 export function getInitializedClients() {
-  if (!firebaseApp) throw new Error("Not initialized.");
-  return { auth: firebaseAuth, supabase, db: firebaseDB };
+  if (!firebaseApp) throw new Error("Call initializeServices FIRST");
+  return { auth: firebaseAuth, db: firebaseDB, supabase };
 }
 
 export function getAuthUser() {
-  return firebaseAuth?.currentUser || null;
+  return firebaseAuth.currentUser || null;
 }
 
-export function logAnalyticsEventWrapper(evt, data = {}) {
-  try {
-    if (analyticsInstance) logEvent(analyticsInstance, evt, data);
-  } catch (_) { }
+export function logAnalyticsEvent(evt, data = {}) {
+  try { analyticsInstance && logEvent(analyticsInstance, evt, data) } catch(e) {}
 }
