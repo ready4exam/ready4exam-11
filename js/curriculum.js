@@ -269,7 +269,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Relations and Functions",
-        "table_id": "Ch 2",
+        "table_id": "relations_functions_quiz",
         "section": "Science/Commerce"
       },
       {
