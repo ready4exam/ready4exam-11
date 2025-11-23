@@ -40,42 +40,42 @@ export const curriculum = {
     "Physics Part II": [
       {
         "chapter_title": "Gravitation",
-        "table_id": "Ch 8",
+        "table_id": "Ch 1",
         "section": "Science"
       },
       {
         "chapter_title": "Mechanical Properties of Solids",
-        "table_id": "Ch 9",
+        "table_id": "Ch 2",
         "section": "Science"
       },
       {
         "chapter_title": "Mechanical Properties of Fluids",
-        "table_id": "Ch 10",
+        "table_id": "Ch 3",
         "section": "Science"
       },
       {
         "chapter_title": "Thermal Properties of Matter",
-        "table_id": "Ch 11",
+        "table_id": "Ch 4",
         "section": "Science"
       },
       {
         "chapter_title": "Thermodynamics",
-        "table_id": "Ch 12",
+        "table_id": "Ch 5",
         "section": "Science"
       },
       {
         "chapter_title": "Kinetic Theory",
-        "table_id": "Ch 13",
+        "table_id": "Ch 6",
         "section": "Science"
       },
       {
         "chapter_title": "Oscillations",
-        "table_id": "Ch 14",
+        "table_id": "Ch 7",
         "section": "Science"
       },
       {
         "chapter_title": "Waves",
-        "table_id": "Ch 15",
+        "table_id": "Ch 8",
         "section": "Science"
       }
     ]
@@ -116,32 +116,32 @@ export const curriculum = {
     "Chemistry Part II": [
       {
         "chapter_title": "Redox Reactions",
-        "table_id": "Ch 7",
+        "table_id": "Ch 1",
         "section": "Science"
       },
       {
         "chapter_title": "Hydrogen",
-        "table_id": "Ch 8",
+        "table_id": "Ch 2",
         "section": "Science"
       },
       {
         "chapter_title": "s-Block Elements",
-        "table_id": "Ch 9",
+        "table_id": "Ch 3",
         "section": "Science"
       },
       {
         "chapter_title": "p-Block Elements",
-        "table_id": "Ch 10",
+        "table_id": "Ch 4",
         "section": "Science"
       },
       {
         "chapter_title": "Organic Chemistry - Some Basic Principles and Techniques",
-        "table_id": "Ch 11",
+        "table_id": "Ch 5",
         "section": "Science"
       },
       {
         "chapter_title": "Hydrocarbons",
-        "table_id": "Ch 12",
+        "table_id": "Ch 6",
         "section": "Science"
       }
     ]
@@ -260,89 +260,89 @@ export const curriculum = {
       }
     ]
   },
-  "Mathematics (Core)": {
+  "Mathematics": {
     "Mathematics Part I": [
       {
         "chapter_title": "Sets",
         "table_id": "Ch 1",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Relations and Functions",
         "table_id": "Ch 2",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Trigonometric Functions",
         "table_id": "Ch 3",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Principle of Mathematical Induction",
         "table_id": "Ch 4",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Complex Numbers and Quadratic Equations",
         "table_id": "Ch 5",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Linear Inequalities",
         "table_id": "Ch 6",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Permutations and Combinations",
         "table_id": "Ch 7",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Binomial Theorem",
         "table_id": "Ch 8",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Sequences and Series",
         "table_id": "Ch 9",
-        "section": "Commerce"
+        "section": "Science/Commerce"
       }
     ],
     "Mathematics Part II": [
       {
         "chapter_title": "Straight Lines",
-        "table_id": "Ch 10",
-        "section": "Commerce"
+        "table_id": "Ch 1",
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Conic Sections",
-        "table_id": "Ch 11",
-        "section": "Commerce"
+        "table_id": "Ch 2",
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Introduction to Three Dimensional Geometry",
-        "table_id": "Ch 12",
-        "section": "Commerce"
+        "table_id": "Ch 3",
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Limits and Derivatives",
-        "table_id": "Ch 13",
-        "section": "Commerce"
+        "table_id": "Ch 4",
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Mathematical Reasoning",
-        "table_id": "Ch 14",
-        "section": "Commerce"
+        "table_id": "Ch 5",
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Statistics",
-        "table_id": "Ch 15",
-        "section": "Commerce"
+        "table_id": "Ch 6",
+        "section": "Science/Commerce"
       },
       {
         "chapter_title": "Probability",
-        "table_id": "Ch 16",
-        "section": "Commerce"
+        "table_id": "Ch 7",
+        "section": "Science/Commerce"
       }
     ]
   },
@@ -351,89 +351,89 @@ export const curriculum = {
       {
         "chapter_title": "The Portrait of a Lady",
         "table_id": "Ch 1",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "A Photograph (Poem)",
         "table_id": "Ch 2",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "We’re Not Afraid to Die... if we can all be together",
         "table_id": "Ch 3",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "Discovering Tut: the Saga Continues",
         "table_id": "Ch 4",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "The Laburnum Top (Poem)",
         "table_id": "Ch 5",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "Landscape of the Soul",
         "table_id": "Ch 6",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "The Voice of the Rain (Poem)",
         "table_id": "Ch 7",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "The Ailing Planet: the Green Movement’s Role",
         "table_id": "Ch 8",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "Childhood (Poem)",
         "table_id": "Ch 9",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "Father to Son (Poem)",
         "table_id": "Ch 10",
-        "section": "Humanities"
+        "section": "Science/Commerce/Humanities"
       }
     ],
     "Snapshots (Supplementary Reader)": [
       {
         "chapter_title": "The Summer of the Beautiful White Horse",
-        "table_id": "Ch 11",
-        "section": "Humanities"
+        "table_id": "Ch 1",
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "The Address",
-        "table_id": "Ch 12",
-        "section": "Humanities"
+        "table_id": "Ch 2",
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "Ranga’s Marriage",
-        "table_id": "Ch 13",
-        "section": "Humanities"
+        "table_id": "Ch 3",
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "Albert Einstein at School",
-        "table_id": "Ch 14",
-        "section": "Humanities"
+        "table_id": "Ch 4",
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "Mother’s Day",
-        "table_id": "Ch 15",
-        "section": "Humanities"
+        "table_id": "Ch 5",
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "The Ghat of the only World",
-        "table_id": "Ch 16",
-        "section": "Humanities"
+        "table_id": "Ch 6",
+        "section": "Science/Commerce/Humanities"
       },
       {
         "chapter_title": "Birth",
-        "table_id": "Ch 17",
-        "section": "Humanities"
+        "table_id": "Ch 7",
+        "section": "Science/Commerce/Humanities"
       }
     ]
   },
@@ -478,27 +478,27 @@ export const curriculum = {
     "Financial Accounting Part II": [
       {
         "chapter_title": "Accounting for Bills of Exchange",
-        "table_id": "Ch 8",
+        "table_id": "Ch 1",
         "section": "Commerce"
       },
       {
         "chapter_title": "Financial Statements I",
-        "table_id": "Ch 9",
+        "table_id": "Ch 2",
         "section": "Commerce"
       },
       {
         "chapter_title": "Financial Statements II (With Adjustments)",
-        "table_id": "Ch 10",
+        "table_id": "Ch 3",
         "section": "Commerce"
       },
       {
         "chapter_title": "Accounts from Incomplete Records",
-        "table_id": "Ch 11",
+        "table_id": "Ch 4",
         "section": "Commerce"
       },
       {
         "chapter_title": "Computers in Accounting",
-        "table_id": "Ch 12",
+        "table_id": "Ch 5",
         "section": "Commerce"
       }
     ]
@@ -539,22 +539,22 @@ export const curriculum = {
     "Business Studies Part II: Finance and Trade": [
       {
         "chapter_title": "Sources of Business Finance",
-        "table_id": "Ch 7",
+        "table_id": "Ch 1",
         "section": "Commerce"
       },
       {
         "chapter_title": "Small Business",
-        "table_id": "Ch 8",
+        "table_id": "Ch 2",
         "section": "Commerce"
       },
       {
         "chapter_title": "Internal Trade",
-        "table_id": "Ch 9",
+        "table_id": "Ch 3",
         "section": "Commerce"
       },
       {
         "chapter_title": "International Business",
-        "table_id": "Ch 10",
+        "table_id": "Ch 4",
         "section": "Commerce"
       }
     ]
@@ -605,32 +605,32 @@ export const curriculum = {
     "Introductory Microeconomics": [
       {
         "chapter_title": "Introduction",
-        "table_id": "Ch 9",
+        "table_id": "Ch 1",
         "section": "Commerce"
       },
       {
         "chapter_title": "Theory of Consumer Behaviour",
-        "table_id": "Ch 10",
+        "table_id": "Ch 2",
         "section": "Commerce"
       },
       {
         "chapter_title": "Production and Costs",
-        "table_id": "Ch 11",
+        "table_id": "Ch 3",
         "section": "Commerce"
       },
       {
         "chapter_title": "The Theory of the Firm under Perfect Competition",
-        "table_id": "Ch 12",
+        "table_id": "Ch 4",
         "section": "Commerce"
       },
       {
         "chapter_title": "Market Equilibrium",
-        "table_id": "Ch 13",
+        "table_id": "Ch 5",
         "section": "Commerce"
       },
       {
         "chapter_title": "Non-Competitive Markets",
-        "table_id": "Ch 14",
+        "table_id": "Ch 6",
         "section": "Commerce"
       }
     ]
@@ -769,52 +769,52 @@ export const curriculum = {
     "Political Theory": [
       {
         "chapter_title": "Political Theory: An Introduction",
-        "table_id": "Ch 9",
+        "table_id": "Ch 1",
         "section": "Humanities"
       },
       {
         "chapter_title": "Freedom",
-        "table_id": "Ch 10",
+        "table_id": "Ch 2",
         "section": "Humanities"
       },
       {
         "chapter_title": "Equality",
-        "table_id": "Ch 11",
+        "table_id": "Ch 3",
         "section": "Humanities"
       },
       {
         "chapter_title": "Social Justice",
-        "table_id": "Ch 12",
+        "table_id": "Ch 4",
         "section": "Humanities"
       },
       {
         "chapter_title": "Rights",
-        "table_id": "Ch 13",
+        "table_id": "Ch 5",
         "section": "Humanities"
       },
       {
         "chapter_title": "Citizenship",
-        "table_id": "Ch 14",
+        "table_id": "Ch 6",
         "section": "Humanities"
       },
       {
         "chapter_title": "Nationalism",
-        "table_id": "Ch 15",
+        "table_id": "Ch 7",
         "section": "Humanities"
       },
       {
         "chapter_title": "Secularism",
-        "table_id": "Ch 16",
+        "table_id": "Ch 8",
         "section": "Humanities"
       },
       {
         "chapter_title": "Peace",
-        "table_id": "Ch 17",
+        "table_id": "Ch 9",
         "section": "Humanities"
       },
       {
         "chapter_title": "Development",
-        "table_id": "Ch 18",
+        "table_id": "Ch 10",
         "section": "Humanities"
       }
     ]
@@ -850,27 +850,27 @@ export const curriculum = {
     "Understanding Society": [
       {
         "chapter_title": "Social Structure, Stratification and Social Processes in Society",
-        "table_id": "Ch 6",
+        "table_id": "Ch 1",
         "section": "Humanities"
       },
       {
         "chapter_title": "Social Change and Social Order in Rural and Urban Society",
-        "table_id": "Ch 7",
+        "table_id": "Ch 2",
         "section": "Humanities"
       },
       {
         "chapter_title": "Environment and Society",
-        "table_id": "Ch 8",
+        "table_id": "Ch 3",
         "section": "Humanities"
       },
       {
         "chapter_title": "Western Sociologists",
-        "table_id": "Ch 9",
+        "table_id": "Ch 4",
         "section": "Humanities"
       },
       {
         "chapter_title": "Indian Sociologists",
-        "table_id": "Ch 10",
+        "table_id": "Ch 5",
         "section": "Humanities"
       }
     ]
@@ -946,79 +946,79 @@ export const curriculum = {
     "India: Physical Environment": [
       {
         "chapter_title": "Introduction",
-        "table_id": "Ch 14",
+        "table_id": "Ch 1",
         "section": "Humanities"
       },
       {
         "chapter_title": "Structure and Physiography",
-        "table_id": "Ch 15",
+        "table_id": "Ch 2",
         "section": "Humanities"
       },
       {
         "chapter_title": "Drainage System",
-        "table_id": "Ch 16",
+        "table_id": "Ch 3",
         "section": "Humanities"
       },
       {
         "chapter_title": "Climate",
-        "table_id": "Ch 17",
+        "table_id": "Ch 4",
         "section": "Humanities"
       },
       {
         "chapter_title": "Natural Vegetation",
-        "table_id": "Ch 18",
+        "table_id": "Ch 5",
         "section": "Humanities"
       },
       {
         "chapter_title": "Soils",
-        "table_id": "Ch 19",
+        "table_id": "Ch 6",
         "section": "Humanities"
       },
       {
         "chapter_title": "Natural Hazards and Disasters",
-        "table_id": "Ch 20",
+        "table_id": "Ch 7",
         "section": "Humanities"
       }
     ],
     "Practical Work in Geography Part I": [
       {
         "chapter_title": "Introduction to Maps",
-        "table_id": "Ch 21",
+        "table_id": "Ch 1",
         "section": "Humanities"
       },
       {
         "chapter_title": "Map Scales",
-        "table_id": "Ch 22",
+        "table_id": "Ch 2",
         "section": "Humanities"
       },
       {
         "chapter_title": "Latitude, Longitude and Time",
-        "table_id": "Ch 23",
+        "table_id": "Ch 3",
         "section": "Humanities"
       },
       {
         "chapter_title": "Map Projections",
-        "table_id": "Ch 24",
+        "table_id": "Ch 4",
         "section": "Humanities"
       },
       {
         "chapter_title": "Topographical Maps",
-        "table_id": "Ch 25",
+        "table_id": "Ch 5",
         "section": "Humanities"
       },
       {
         "chapter_title": "Aerial Photographs",
-        "table_id": "Ch 26",
+        "table_id": "Ch 6",
         "section": "Humanities"
       },
       {
         "chapter_title": "Remote Sensing",
-        "table_id": "Ch 27",
+        "table_id": "Ch 7",
         "section": "Humanities"
       },
       {
         "chapter_title": "Geographical Information System (GIS)",
-        "table_id": "Ch 28",
+        "table_id": "Ch 8",
         "section": "Humanities"
       }
     ]
