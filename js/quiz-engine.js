@@ -68,7 +68,44 @@ async function onAuthReady(user) {
   try {
     const questions = await fetchQuestions(topic, diff);
 
-    UI.renderQuiz(questions);
+    // ------------------------------------------------------
+    // FIX: Replace UI.renderQuiz() with 11th-version logic
+    // ------------------------------------------------------
+    window.quizState.questions = questions;
+    window.quizState.userAnswers = Object.fromEntries(
+      questions.map(q => [q.id, null])
+    );
+    window.quizState.currentQuestionIndex = 0;
+    window.quizState.isSubmitted = false;
+
+    // Render first question
+    if (typeof UI.renderQuestion === "function") {
+      UI.renderQuestion(
+        questions[0],
+        1,
+        window.quizState.userAnswers[questions[0].id],
+        false
+      );
+    }
+
+    // Attach answer listeners (optional chaining)
+    UI.attachAnswerListeners?.((questionId, selectedOption) => {
+      if (!window.quizState.isSubmitted) {
+        window.quizState.userAnswers[questionId] = selectedOption;
+        UI.renderQuestion(
+          window.quizState.questions[window.quizState.currentQuestionIndex],
+          window.quizState.currentQuestionIndex + 1,
+          window.quizState.userAnswers[
+            window.quizState.questions[window.quizState.currentQuestionIndex].id
+          ],
+          false
+        );
+      }
+    });
+
+    // Show quiz content
+    UI.showView?.("quiz-content");
+
     console.log(LOG, "Quiz loaded:", questions.length);
 
     // FIX 3: Show quiz block
