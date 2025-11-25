@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,14 +135,11 @@
       content.innerHTML = "";
       if (!data) return content.innerHTML = `<p class='text-center text-gray-600'>No books found.</p>`;
       Object.keys(data).forEach(book => {
-        
-        const back = document.createElement("button");
-back.className = "text-cbse-blue underline font-semibold mt-4";
-back.textContent = "← Back to Books";
-back.onclick = () => {
-  window.location.href = `chapter-selection.html?subject=${encodeURIComponent(subject)}`;
-};
-content.appendChild(back);
+        const btn = document.createElement("button");
+        btn.className = "topic-btn";
+        btn.textContent = book;
+        btn.onclick = () => renderChapters(book);
+        content.appendChild(btn);
       });
     }
 
