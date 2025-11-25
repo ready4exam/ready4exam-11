@@ -1,103 +1,65 @@
-# Updated Files for Class 11 Quiz Engine
-
-Below are the fully updated files needed for proper quiz loading. Each file is labeled.
-
----
-
-## 1. **quiz-engine.html (Corrected & Working for Class 11)**
-
-```html
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ready4Exam | Quiz Engine</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            'cbse-blue': '#1a3e6a',
-            'accent-gold': '#ffb703'
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f5f7fa; }
-  </style>
-</head>
-
-<body class="min-h-screen flex flex-col">
-
-<header class="bg-cbse-blue shadow-md py-4 px-6 flex justify-between items-center text-white">
-  <a href="chapter-selection.html" class="p-2 bg-white text-cbse-blue rounded-full">🏠</a>
-  <div>
-    <h2 id="chapter-name-display" class="text-xl font-bold text-accent-gold"></h2>
-    <p class="text-sm opacity-80 italic">Ready4Exam helps students excel in school exams — a Ready4Industry initiative.</p>
-  </div>
-  <div class="flex items-center space-x-3">
-    <span id="difficulty-display" class="bg-yellow-200 text-yellow-800 px-3 py-1 rounded"></span>
-    <button id="logout-nav-btn" class="hidden bg-red-500 px-3 py-1 rounded">Sign Out</button>
-  </div>
+<button id="logout-nav-btn" class="hidden bg-red-500 px-3 py-1 rounded">Sign Out</button>
+</div>
 </header>
+
 
 <div id="status-message" class="hidden text-center p-4 font-semibold text-blue-700"></div>
 
+
 <div id="paywall-screen" class="flex flex-col items-center justify-center flex-grow p-8">
-  <div class="bg-white shadow p-8 rounded-xl">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800">Sign in to Continue</h2>
-    <button id="google-signin-btn" class="bg-blue-600 text-white px-6 py-2 rounded">Sign in with Google</button>
-  </div>
+<div class="bg-white shadow p-8 rounded-xl">
+<h2 class="text-2xl font-bold mb-4 text-gray-800">Sign in to Continue</h2>
+<button id="google-signin-btn" class="bg-blue-600 text-white px-6 py-2 rounded">Sign in with Google</button>
+</div>
 </div>
 
-<main id="quiz-content" class="hidden flex flex-col items-center max-w-4xl mx-auto p-6">
-  <div id="question-list" class="w-full space-y-4 mb-6"></div>
 
-  <div class="w-full bg-white shadow rounded p-4 flex justify-between items-center">
-    <button id="prev-btn" class="px-4 py-2 bg-gray-300 rounded">Previous</button>
-    <span id="question-counter"></span>
-    <div class="flex space-x-2">
-      <button id="next-btn" class="px-4 py-2 bg-blue-600 text-white rounded">Next</button>
-      <button id="submit-btn" class="hidden px-4 py-2 bg-green-600 text-white rounded">Submit</button>
-    </div>
-  </div>
+<main id="quiz-content" class="hidden flex flex-col items-center max-w-4xl mx-auto p-6">
+<div id="question-list" class="w-full space-y-4 mb-6"></div>
+
+
+<div class="w-full bg-white shadow rounded p-4 flex justify-between items-center">
+<button id="prev-btn" class="px-4 py-2 bg-gray-300 rounded">Previous</button>
+<span id="question-counter"></span>
+<div class="flex space-x-2">
+<button id="next-btn" class="px-4 py-2 bg-blue-600 text-white rounded">Next</button>
+<button id="submit-btn" class="hidden px-4 py-2 bg-green-600 text-white rounded">Submit</button>
+</div>
+</div>
 </main>
 
+
 <section id="results-screen" class="hidden p-8 text-center">
-  <h2 class="text-3xl font-bold text-green-600">Quiz Completed!</h2>
-  <p class="text-xl text-gray-700">Your Score:</p>
-  <p id="score-display" class="text-5xl text-blue-700 font-bold my-4"></p>
-  <div id="review-container" class="max-w-3xl mx-auto"></div>
+<h2 class="text-3xl font-bold text-green-600">Quiz Completed!</h2>
+<p class="text-xl text-gray-700">Your Score:</p>
+<p id="score-display" class="text-5xl text-blue-700 font-bold my-4"></p>
+<div id="review-container" class="max-w-3xl mx-auto"></div>
 </section>
 
+
 <footer class="bg-cbse-blue text-white p-4 text-center mt-auto">
-  <small>© 2025 Ready4Exam</small>
+<small>© 2025 Ready4Exam</small>
 </footer>
 
-<script>
-  window.__firebase_config = {
-    apiKey: "AIzaSyAXdKiYRxBKAj280YcNuNwlKKDp85xpOWQ",
-    authDomain: "quiz-signon.firebaseapp.com",
-    projectId: "quiz-signon",
-    storageBucket: "quiz-signon.firebasestorage.app",
-    messagingSenderId: "863414222321",
-    appId: "1:863414222321:web:819f5564825308bcd9d850",
-    measurementId: "G-4EFDM0CRYY",
 
-    // REQUIRED FOR QUIZ TO LOAD
-    supabaseUrl: "https://zqhzekzilalbszpfwxhn.supabase.co",
-    supabaseAnonKey: "sb_publishable_YkwxnAk1xdI8n2GOhTn4VA_v7viBnys"
-  };
+<script>
+window.__firebase_config = {
+apiKey: "AIzaSyAXdKiYRxBKAj280YcNuNwlKKDp85xpOWQ",
+authDomain: "quiz-signon.firebaseapp.com",
+projectId: "quiz-signon",
+storageBucket: "quiz-signon.firebasestorage.app",
+messagingSenderId: "863414222321",
+appId: "1:863414222321:web:819f5564825308bcd9d850",
+measurementId: "G-4EFDM0CRYY",
+
+
+// REQUIRED FOR QUIZ TO LOAD
+supabaseUrl: "https://zqhzekzilalbszpfwxhn.supabase.co",
+supabaseAnonKey: "sb_publishable_YkwxnAk1xdI8n2GOhTn4VA_v7viBnys"
+};
 </script>
+
 
 <script type="module" src="./js/config.js"></script>
 <script type="module" src="./js/auth-paywall.js"></script>
@@ -106,45 +68,3 @@ Below are the fully updated files needed for proper quiz loading. Each file is l
 <script type="module" src="./js/quiz-engine.js"></script>
 </body>
 </html>
-```
-
----
-
-## 2. **config.js (no change needed)**
-
-✔ Already correct
-✔ No update required
-
----
-
-## 3. **api.js (no change needed except table mapping if required)**
-
-✔ Your 9th version is correct
-✔ No update required
-
----
-
-## 4. **quiz-engine.js (no change needed)**
-
-✔ 9th version is correct
-✔ Fully compatible with class 11
-
----
-
-## SUMMARY
-
-### **Files that need change:**
-
-* ✅ `quiz-engine.html` **(fixed & provided above)**
-
-### **Files that do NOT need change:**
-
-* `config.js`
-* `api.js`
-* `quiz-engine.js`
-* `ui-renderer.js`
-* `auth-paywall.js`
-
----
-
-If you want, I can auto‑deploy this into your class 11 repo layout.
