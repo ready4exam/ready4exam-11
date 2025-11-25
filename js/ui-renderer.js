@@ -299,6 +299,7 @@ export function renderAllQuestionsForReview(questions, userAnswers = {}) {
   const subject = url.searchParams.get("subject") || "";
   window.location.href = `chapter-selection.html?subject=${encodeURIComponent(subject)}`;
 }";
+  }
   });
 
   showView("results-screen");
