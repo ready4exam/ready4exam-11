@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Ready4Exam | Quiz Engine</title>
 
   <!-- Tailwind + Fonts -->
@@ -10,6 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 
   <script>
+    html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
     tailwind.config = {
       theme: {
         extend: {
@@ -33,7 +40,8 @@
   </style>
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="bg-cbse-light min-h-screen w-full flex flex-col">
+
 <!-- Header -->
 <header class="bg-cbse-blue shadow-md py-4 px-6 flex justify-between items-center">
   <!-- Left section -->
