@@ -10,9 +10,7 @@
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
             'cbse-blue': '#1a3e6a',
             'cbse-light': '#f5f7fa',
@@ -50,9 +48,7 @@
       cursor: pointer;
       transition: .2s;
     }
-    .difficulty-btn.selected {
-      box-shadow: 0 6px 18px rgba(26, 62, 106, .14);
-    }
+    .difficulty-btn.selected { box-shadow: 0 6px 18px rgba(26,62,106,.14); }
   </style>
 </head>
 
@@ -114,25 +110,13 @@
     let selectedChapter = null;
     let selectedDifficulty = null;
 
-    const subjectDescriptions = {
-      Physics: "Explore mechanics, thermodynamics, waves, and more.",
-      Chemistry: "Study atoms, bonding, and chemical reactions.",
-      Biology: "Learn about cells, plants, animals, and human physiology.",
-      Mathematics: "Functions, trigonometry, algebra, geometry.",
-      Accountancy: "Journals, ledgers, reconciliation & depreciation.",
-      "Business Studies": "Business concepts and organizational fundamentals.",
-      Economics: "Statistics, Indian economic development & markets.",
-      History: "Global events shaping civilization.",
-      "Political Science": "Government, democracy & constitution.",
-      Geography: "Earth systems, climate, landforms & human geography."
-    };
-
     function renderBooks() {
       const data = curriculum[subject];
       document.getElementById("page-title").textContent = `Select Book for ${subject}`;
-      subjectDesc.textContent = subjectDescriptions[subject] || "";
       content.innerHTML = "";
-      if (!data) return content.innerHTML = `<p class='text-center text-gray-600'>No books found.</p>`;
+
+      if (!data) return content.innerHTML = `<p class="text-center text-gray-600">No books found.</p>`;
+
       Object.keys(data).forEach(book => {
         const btn = document.createElement("button");
         btn.className = "topic-btn";
@@ -149,11 +133,10 @@
       document.getElementById("page-title").textContent = `${book} — Chapters`;
 
       chapters.forEach(ch => {
-        const title = ch.chapter_title || ch.title || ch;
         const btn = document.createElement("button");
         btn.className = "topic-btn";
-        btn.textContent = title;
-        btn.onclick = e => selectChapter(title, e.currentTarget);
+        btn.textContent = ch.chapter_title;
+        btn.onclick = e => selectChapter(ch, e.currentTarget);
         content.appendChild(btn);
       });
 
@@ -164,11 +147,11 @@
       content.appendChild(back);
     }
 
-    function selectChapter(title, el) {
+    function selectChapter(chapterObj, el) {
       document.querySelectorAll(".topic-btn").forEach(b => b.classList.remove("selected"));
       el.classList.add("selected");
-      selectedChapter = title;
-      errorMsg.classList.add("hidden");
+
+      selectedChapter = chapterObj;
       diffContainer.classList.remove("hidden");
       startBtn.disabled = true;
     }
@@ -182,23 +165,19 @@
       };
     });
 
-    function buildTableName(chapterTitle) {
-      const parts = chapterTitle.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim().split(/\s+/);
-      return parts.length === 1 ? `${parts[0]}_quiz`
-        : `${parts[0]}_${parts[parts.length - 1]}_quiz`;
-    }
-
     startBtn.onclick = () => {
       if (!selectedChapter || !selectedDifficulty) {
         errorMsg.textContent = "Please select both a chapter and difficulty.";
         errorMsg.classList.remove("hidden");
         return;
       }
-      const table = buildTableName(selectedChapter);
+
+      const table = selectedChapter.table_id;
       window.location.href = `quiz-engine.html?table=${table}&difficulty=${selectedDifficulty}`;
     };
 
     renderBooks();
   </script>
+
 </body>
 </html>
