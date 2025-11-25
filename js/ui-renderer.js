@@ -295,8 +295,10 @@ export function renderAllQuestionsForReview(questions, userAnswers = {}) {
       window.location.href = `quiz-engine.html?${params.toString()}`;
     }
     if (e.target.id === "back-to-chapters-btn") {
-      window.location.href = "chapter-selection.html";
-    }
+      const url = new URL(window.location.href);
+  const subject = url.searchParams.get("subject") || "";
+  window.location.href = `chapter-selection.html?subject=${encodeURIComponent(subject)}`;
+}";
   });
 
   showView("results-screen");
