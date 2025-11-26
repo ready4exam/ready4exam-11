@@ -3,7 +3,6 @@
 // Core quiz logic: loading questions, tracking progress, auth state, GA4 logging
 // -----------------------------------------------------------------------------
 
-
 import { initializeServices, getAuthUser } from "./config.js";
 import { fetchQuestions, saveResult } from "./api.js";
 import * as UI from "./ui-renderer.js";
@@ -13,7 +12,7 @@ import {
   signInWithGoogle,
   signOut,
 } from "./auth-paywall.js";
-import curriculumData from "./curriculum.js"; // <-- used to map slug -> full chapter title
+import curriculumData from "./curriculum.js"; // <-- used to map table_id -> chapter_title
 
 // Global quiz state
 let quizState = {
@@ -53,35 +52,29 @@ function humanizeSlug(slug) {
 }
 
 // -------------------------------
-// Find chapter title from curriculum (safe search across sub-subjects)
+// Find chapter title from curriculum using table_id match
 // -------------------------------
 function findChapterTitle(classId, subject, topicSlug) {
   try {
-    if (!classId || !subject || !topicSlug) return null;
-    const classBlock = curriculumData?.[classId];
-    if (!classBlock) return null;
+    if (!subject || !topicSlug) return null;
 
-    const subjectBlock = classBlock[subject];
+    const subjectBlock = curriculumData?.[subject];
     if (!subjectBlock) return null;
 
-    // Search nested subject arrays
-    if (typeof subjectBlock === "object" && !Array.isArray(subjectBlock)) {
-      for (const sub in subjectBlock) {
-        const arr = subjectBlock[sub];
-        if (!Array.isArray(arr)) continue;
-        for (const ch of arr) {
-          if (ch?.id === topicSlug) return ch?.title || null;
+    for (const book in subjectBlock) {
+      const chapters = subjectBlock[book];
+      if (!Array.isArray(chapters)) continue;
+      for (const ch of chapters) {
+        const tableId = ch.table_id;
+        if (
+          tableId &&
+          tableId.toString().toLowerCase().trim() === topicSlug.toLowerCase().trim()
+        ) {
+          // matched by table_id
+          return ch.chapter_title || null;
         }
       }
     }
-
-    // Search directly if subjectBlock is an array
-    if (Array.isArray(subjectBlock)) {
-      for (const ch of subjectBlock) {
-        if (ch?.id === topicSlug) return ch?.title || null;
-      }
-    }
-
     return null;
   } catch (e) {
     console.warn("[ENGINE] findChapterTitle failed:", e);
@@ -90,31 +83,32 @@ function findChapterTitle(classId, subject, topicSlug) {
 }
 
 // -------------------------------
-// Parse quiz parameters (ONLY HEADER UPDATED—NO OTHER CHANGE)
+// Parse quiz parameters and update header (clean formatting)
 // -------------------------------
 function parseUrlParameters() {
   const urlParams = new URLSearchParams(window.location.search);
-  quizState.classId = urlParams.get("class");
-  quizState.subject = urlParams.get("subject");
-  quizState.topicSlug = urlParams.get("topic");
-  quizState.difficulty = urlParams.get("difficulty");
+  quizState.classId = urlParams.get("class") || "";    // class may be missing
+  quizState.subject = urlParams.get("subject") || "";  // subject may be missing
+  quizState.topicSlug = urlParams.get("topic") || "";
+  quizState.difficulty = urlParams.get("difficulty") || "";
 
   if (!quizState.topicSlug) throw new Error("Missing topic parameter.");
 
-  // Resolve proper readable chapter title
   let chapterTitle =
     findChapterTitle(quizState.classId, quizState.subject, quizState.topicSlug) ||
     humanizeSlug(quizState.topicSlug);
 
-  // 🔥 FINAL HEADER TEXT (ONLY CHANGE DONE)
+  // Remove any accidental 'quiz' words in title (just in case)
+  chapterTitle = chapterTitle.replace(/quiz/ig, "").trim();
+
+  // Build final header
   const finalHeader = `Class ${quizState.classId} ${quizState.subject} – ${chapterTitle} Worksheet`;
 
-  // Push into UI (unchanged function)
   UI.updateHeader(finalHeader, quizState.difficulty);
 }
 
 // -------------------------------
-// Render question
+// Render question (index is zero-based internal)
 // -------------------------------
 function renderQuestion() {
   const idx = quizState.currentQuestionIndex;
@@ -126,7 +120,6 @@ function renderQuestion() {
 
   UI.renderQuestion(q, idx + 1, quizState.userAnswers[q.id], quizState.isSubmitted);
   UI.updateNavigation?.(idx, quizState.questions.length, quizState.isSubmitted);
-
   UI.hideStatus();
 }
 
