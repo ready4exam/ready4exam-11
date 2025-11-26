@@ -823,7 +823,7 @@ export const curriculum = {
     "Introducing Sociology": [
       {
         "chapter_title": "Sociology and Society",
-        "table_id": "Ch 1",
+        "table_id": "sociology_society_quiz",
         "section": "Humanities"
       },
       {
