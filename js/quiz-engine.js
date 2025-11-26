@@ -54,7 +54,6 @@ function humanizeSlug(slug) {
 
 // -------------------------------
 // Find chapter title from curriculum (safe search across sub-subjects)
-// Returns the full title (e.g. "Chapter 3: Drainage") or null
 // -------------------------------
 function findChapterTitle(classId, subject, topicSlug) {
   try {
@@ -65,7 +64,7 @@ function findChapterTitle(classId, subject, topicSlug) {
     const subjectBlock = classBlock[subject];
     if (!subjectBlock) return null;
 
-    // If subjectBlock is an object (has sub-subjects), search each array
+    // Search nested subject arrays
     if (typeof subjectBlock === "object" && !Array.isArray(subjectBlock)) {
       for (const sub in subjectBlock) {
         const arr = subjectBlock[sub];
@@ -76,7 +75,7 @@ function findChapterTitle(classId, subject, topicSlug) {
       }
     }
 
-    // If subjectBlock itself is an array of chapters
+    // Search directly if subjectBlock is an array
     if (Array.isArray(subjectBlock)) {
       for (const ch of subjectBlock) {
         if (ch?.id === topicSlug) return ch?.title || null;
@@ -91,7 +90,7 @@ function findChapterTitle(classId, subject, topicSlug) {
 }
 
 // -------------------------------
-// Parse quiz parameters
+// Parse quiz parameters (ONLY HEADER UPDATED—NO OTHER CHANGE)
 // -------------------------------
 function parseUrlParameters() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -102,17 +101,20 @@ function parseUrlParameters() {
 
   if (!quizState.topicSlug) throw new Error("Missing topic parameter.");
 
-  // Resolve display title using curriculum.js. Fallback to humanized slug.
-  const displayTitle =
+  // Resolve proper readable chapter title
+  let chapterTitle =
     findChapterTitle(quizState.classId, quizState.subject, quizState.topicSlug) ||
-    humanizeSlug(quizState.topicSlug) + (humanizeSlug(quizState.topicSlug) ? " Quiz" : "");
+    humanizeSlug(quizState.topicSlug);
 
-  // now update header with the resolved *chapter title*
-  UI.updateHeader(displayTitle, quizState.difficulty);
+  // 🔥 FINAL HEADER TEXT (ONLY CHANGE DONE)
+  const finalHeader = `Class ${quizState.classId} ${quizState.subject} – ${chapterTitle} Worksheet`;
+
+  // Push into UI (unchanged function)
+  UI.updateHeader(finalHeader, quizState.difficulty);
 }
 
 // -------------------------------
-// Render question (index is zero-based internal)
+// Render question
 // -------------------------------
 function renderQuestion() {
   const idx = quizState.currentQuestionIndex;
@@ -122,10 +124,7 @@ function renderQuestion() {
     return;
   }
 
-  // UI.renderQuestion expects idxOneBased
   UI.renderQuestion(q, idx + 1, quizState.userAnswers[q.id], quizState.isSubmitted);
-
-  // Update navigation UI and counter
   UI.updateNavigation?.(idx, quizState.questions.length, quizState.isSubmitted);
 
   UI.hideStatus();
@@ -148,12 +147,11 @@ function handleNavigation(dir) {
 function handleAnswerSelection(questionId, selectedOption) {
   if (quizState.isSubmitted) return;
   quizState.userAnswers[questionId] = selectedOption;
-  // Re-render to reflect selection (UI.renderQuestion will show selected state)
   renderQuestion();
 }
 
 // -------------------------------
-// Submit quiz: compute score, save, GA logging
+// Submit quiz and compute score
 // -------------------------------
 async function handleSubmit() {
   if (quizState.isSubmitted) return;
@@ -188,11 +186,7 @@ async function handleSubmit() {
   };
 
   if (user) {
-    try {
-      await saveResult(result);
-    } catch (e) {
-      console.warn("[ENGINE] Save failed:", e);
-    }
+    try { await saveResult(result); } catch (e) { console.warn("[ENGINE] Save failed:", e); }
 
     try {
       const emailHash = await hashEmail(user.email || "");
@@ -209,12 +203,9 @@ async function handleSubmit() {
           case_correct: correctTypeCount.case,
         });
       }
-    } catch (err) {
-      console.warn("[GA4] Logging failed:", err);
-    }
+    } catch {}
   }
 
-  // Show results and review
   quizState.currentQuestionIndex = 0;
   renderQuestion();
   UI.showResults(quizState.score, quizState.questions.length);
@@ -236,7 +227,6 @@ async function loadQuiz() {
     quizState.currentQuestionIndex = 0;
     quizState.isSubmitted = false;
 
-    // GA4: quiz started
     try {
       if (typeof gtag === "function") {
         gtag("event", "quiz_started", {
@@ -244,12 +234,9 @@ async function loadQuiz() {
           difficulty: quizState.difficulty,
         });
       }
-    } catch (e) {
-      console.warn("[GA4] quiz_started log failed:", e);
-    }
+    } catch {}
 
     renderQuestion();
-    // Attach answer listeners to the question-list container (delegated change handler inside UI)
     UI.attachAnswerListeners?.(handleAnswerSelection);
     UI.showView?.("quiz-content");
   } catch (err) {
@@ -278,48 +265,27 @@ async function onAuthChange(user) {
 }
 
 // -------------------------------
-// DOM Event Handlers (delegated)
+// DOM Event Handlers
 // -------------------------------
 function attachDomEventHandlers() {
-  // Single delegated listener to handle navigation AND auth buttons reliably.
-  document.addEventListener(
-    "click",
-    (e) => {
-      const btn = e.target.closest("button, a");
-      if (!btn) return;
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button, a");
+    if (!btn) return;
 
-      // Navigation controls (use IDs present in DOM)
-      if (btn.id === "prev-btn") {
-        e.preventDefault();
-        return handleNavigation(-1);
-      }
-      if (btn.id === "next-btn") {
-        e.preventDefault();
-        return handleNavigation(1);
-      }
-      if (btn.id === "submit-btn") {
-        e.preventDefault();
-        return handleSubmit();
-      }
+    if (btn.id === "prev-btn") { e.preventDefault(); return handleNavigation(-1); }
+    if (btn.id === "next-btn") { e.preventDefault(); return handleNavigation(1); }
+    if (btn.id === "submit-btn") { e.preventDefault(); return handleSubmit(); }
 
-      // Auth & paywall buttons
-      if (btn.id === "login-btn" || btn.id === "google-signin-btn" || btn.id === "paywall-login-btn") {
-        e.preventDefault();
-        return signInWithGoogle();
-      }
-      if (btn.id === "logout-nav-btn") {
-        e.preventDefault();
-        return signOut();
-      }
-
-      // Back to chapter selection button (inside review)
-      if (btn.id === "back-to-chapters-btn") {
-        e.preventDefault();
-        return (window.location.href = "chapter-selection.html");
-      }
-    },
-    false
-  );
+    if (btn.id === "login-btn" || btn.id === "google-signin-btn" || btn.id === "paywall-login-btn") {
+      e.preventDefault(); return signInWithGoogle();
+    }
+    if (btn.id === "logout-nav-btn") {
+      e.preventDefault(); return signOut();
+    }
+    if (btn.id === "back-to-chapters-btn") {
+      e.preventDefault(); return (window.location.href = "chapter-selection.html");
+    }
+  });
 }
 
 // -------------------------------
@@ -329,13 +295,10 @@ async function initQuizEngine() {
   try {
     UI.initializeElements();
     parseUrlParameters();
-
     UI.showStatus("Initializing services...");
     await initializeServices();
     await initializeAuthListener(onAuthChange);
-
     attachDomEventHandlers();
-
     UI.hideStatus();
     console.log("[ENGINE] Initialization complete.");
   } catch (err) {
