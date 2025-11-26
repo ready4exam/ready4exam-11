@@ -879,7 +879,7 @@ export const curriculum = {
     "Fundamentals of Physical Geography": [
       {
         "chapter_title": "Geography as a Discipline",
-        "table_id": "Ch 1",
+        "table_id": "as_discipline_quiz",
         "section": "Humanities"
       },
       {
