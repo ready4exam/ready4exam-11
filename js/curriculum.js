@@ -99,7 +99,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Chemical Bonding and Molecular Structure",
-        "table_id": "Ch 4",
+        "table_id": "chemical_structure_quiz",
         "section": "Science"
       },
       {
