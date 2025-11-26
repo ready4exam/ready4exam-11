@@ -49,7 +49,7 @@ export function initializeElements() {
 }
 
 /* -----------------------------------
-   STATUS + HEADER
+   STATUS + HEADER   (UPDATED AS REQUESTED)
 ----------------------------------- */
 export function showStatus(msg, cls = "text-gray-700") {
   initializeElements();
@@ -66,10 +66,14 @@ export function hideStatus() {
 
 export function updateHeader(topicDisplayTitle, diff) {
   initializeElements();
+
+  // FINAL FIX — USE EXACT NAME FROM quiz-engine WITHOUT ADDING "QUIZ"
+  const finalHeader = topicDisplayTitle;  
+
   if (els.miniTitle) els.miniTitle.textContent = "";
-  if (els.title) els.title.textContent = topicDisplayTitle || "Ready4Exam Quiz";
+  if (els.title) els.title.textContent = finalHeader;
   if (els.chapterNameDisplay) {
-    els.chapterNameDisplay.textContent = topicDisplayTitle || "";
+    els.chapterNameDisplay.textContent = finalHeader;
     els.chapterNameDisplay.classList.remove("hidden");
   }
   if (els.diffBadge) {
@@ -256,7 +260,6 @@ export function renderAllQuestionsForReview(questions, userAnswers = {}) {
 
   els.reviewContainer.innerHTML = html;
 
-  /* RETRY + CHAPTER RETURN */
   const retryBlock = document.createElement("div");
   retryBlock.className = "text-center mt-8 space-y-4";
   retryBlock.innerHTML = `
