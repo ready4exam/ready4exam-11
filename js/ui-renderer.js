@@ -49,7 +49,7 @@ export function initializeElements() {
 }
 
 /* -----------------------------------
-   STATUS + HEADER   (UPDATED AS REQUESTED)
+   STATUS MESSAGE
 ----------------------------------- */
 export function showStatus(msg, cls = "text-gray-700") {
   initializeElements();
@@ -64,11 +64,13 @@ export function hideStatus() {
   if (els.status) els.status.classList.add("hidden");
 }
 
+/* -----------------------------------
+   🔥 FIXED HEADER DISPLAY (ONLY CHANGE MADE)
+----------------------------------- */
 export function updateHeader(topicDisplayTitle, diff) {
   initializeElements();
 
-  // FINAL FIX — USE EXACT NAME FROM quiz-engine WITHOUT ADDING "QUIZ"
-  const finalHeader = topicDisplayTitle;  
+  const finalHeader = topicDisplayTitle;  // ← EXACT header passed from quiz-engine.js
 
   if (els.miniTitle) els.miniTitle.textContent = "";
   if (els.title) els.title.textContent = finalHeader;
@@ -145,7 +147,7 @@ export function showView(viewName) {
 }
 
 /* -----------------------------------
-   QUESTION RENDERING
+   QUESTION RENDERER
 ----------------------------------- */
 export function renderQuestion(q, idxOneBased, selected, submitted) {
   initializeElements();
@@ -229,7 +231,7 @@ export function updateNavigation(index, total, submitted) {
 }
 
 /* -----------------------------------
-   RESULTS + REVIEW MODE
+   RESULTS + REVIEW
 ----------------------------------- */
 export function showResults(score, total) {
   initializeElements();
@@ -271,6 +273,7 @@ export function renderAllQuestionsForReview(questions, userAnswers = {}) {
     </div>
     <button id="back-to-chapters-btn" class="mt-4 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700">Go Back to Chapter Selection</button>
   `;
+
   els.reviewContainer.appendChild(retryBlock);
 
   retryBlock.addEventListener("click", (e) => {
