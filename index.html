@@ -6,7 +6,7 @@
 
 <title>CBSE Class 11 Streams — Ready4Exam</title>
 
-<!-- Google Fonts (Correct Placement) -->
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Tailwind CSS -->
@@ -39,16 +39,21 @@ html,body{
   background:#f5f7fa; font-family:'Inter',sans-serif;
 }
 
-/* Card Styling (No @apply — pure CSS for CDN compatibility) */
+/* Make page always use full height */
+#stream-section, #subject-section{
+  min-height:calc(100vh - 140px);   /* Header + footer combined height reserve */
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* Card Styling */
 .subject-card{
   padding:1.5rem;border-radius:12px;background:#fff;
   border:1px solid #d1d5db;box-shadow:0 2px 6px rgba(0,0,0,.05);
   transition:.3s;display:block;cursor:pointer;overflow:hidden;
 }
-.subject-card:hover{
-  transform:translateY(-5px);
-  border-color:#1a3e6a;box-shadow:0 6px 18px rgba(0,0,0,.1);
-}
+.subject-card:hover{transform:translateY(-5px);border-color:#1a3e6a;box-shadow:0 6px 18px rgba(0,0,0,.1);}
 .card-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
 .card-title{font-size:1.25rem;font-weight:800;color:#0f172a;}
 .card-description{font-size:.9rem;color:#4b5563;}
@@ -58,6 +63,7 @@ html,body{
 .arts{background:#9333ea;color:white;} .arts:hover{background:#7e22ce;}
 </style>
 </head>
+
 
 <body class="min-h-screen w-full flex flex-col">
 
@@ -70,74 +76,70 @@ html,body{
   </div>
 </header>
 
-<!-- Main Section -->
-<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-  <header class="text-center mb-12">
-    <h2 class="text-4xl font-extrabold text-heading mb-2">CBSE Class 11 Streams</h2>
-    <p class="text-lg text-gray-600">Select your stream to explore subjects and start your chapter-wise quizzes.</p>
-  </header>
 
-  <!-- Stream Cards -->
-  <div id="stream-section" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Main Content -->
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <div onclick="showSubjects('Science')" class="subject-card">
-      <div class="card-header">
-        <i data-lucide="flask-conical" class="text-green-700 h-8 w-8"></i>
-        <h3 class="card-title">Science Stream</h3>
+  <!-- Streams Section -->
+  <div id="stream-section">
+    <header class="text-center mb-12">
+      <h2 class="text-4xl font-extrabold text-heading mb-2">CBSE Class 11 Streams</h2>
+      <p class="text-lg text-gray-600">Select your stream to explore subjects and start your chapter-wise quizzes.</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <div onclick="showSubjects('Science')" class="subject-card">
+        <div class="card-header">
+          <i data-lucide="flask-conical" class="text-green-700 h-8 w-8"></i>
+          <h3 class="card-title">Science Stream</h3>
+        </div>
+        <p class="card-description">Physics, Chemistry, Biology, and Mathematics — explore the foundation of modern science.</p>
+        <div class="mt-6 text-center"><button class="card-button science">Explore Subjects</button></div>
       </div>
-      <p class="card-description">
-        Physics, Chemistry, Biology, and Mathematics — explore the foundation of modern science and innovation.
-      </p>
-      <div class="mt-6 text-center">
-        <button class="card-button science">Explore Subjects</button>
+
+      <div onclick="showSubjects('Commerce')" class="subject-card">
+        <div class="card-header">
+          <i data-lucide="briefcase" class="text-blue-700 h-8 w-8"></i>
+          <h3 class="card-title">Commerce Stream</h3>
+        </div>
+        <p class="card-description">Accountancy, Business Studies, and Economics — master finance & business.</p>
+        <div class="mt-6 text-center"><button class="card-button commerce">Explore Subjects</button></div>
       </div>
+
+      <div onclick="showSubjects('Humanities')" class="subject-card">
+        <div class="card-header">
+          <i data-lucide="landmark" class="text-purple-700 h-8 w-8"></i>
+          <h3 class="card-title">Humanities (Arts)</h3>
+        </div>
+        <p class="card-description">History, Political Science, Geography, Economics — dive into culture & society.</p>
+        <div class="mt-6 text-center"><button class="card-button arts">Explore Subjects</button></div>
+      </div>
+
     </div>
-
-    <div onclick="showSubjects('Commerce')" class="subject-card">
-      <div class="card-header">
-        <i data-lucide="briefcase" class="text-blue-700 h-8 w-8"></i>
-        <h3 class="card-title">Commerce Stream</h3>
-      </div>
-      <p class="card-description">
-        Accountancy, Business Studies, and Economics — master trade, finance, and global business concepts.
-      </p>
-      <div class="mt-6 text-center">
-        <button class="card-button commerce">Explore Subjects</button>
-      </div>
-    </div>
-
-    <div onclick="showSubjects('Humanities')" class="subject-card">
-      <div class="card-header">
-        <i data-lucide="landmark" class="text-purple-700 h-8 w-8"></i>
-        <h3 class="card-title">Humanities (Arts)</h3>
-      </div>
-      <p class="card-description">
-        History, Political Science, Geography, and Economics — explore civilization, governance & society.
-      </p>
-      <div class="mt-6 text-center">
-        <button class="card-button arts">Explore Subjects</button>
-      </div>
-    </div>
-
   </div>
 
+
   <!-- Subject Section -->
-  <div id="subject-section" class="hidden">
-    <button onclick="backToStreams()" class="mb-6 px-4 py-2 bg-cbse-blue text-white rounded-lg hover:bg-blue-800">
+  <div id="subject-section" class="hidden flex-col">
+    <button onclick="backToStreams()" class="mb-6 px-4 py-2 bg-cbse-blue text-white rounded-lg hover:bg-blue-800 w-fit">
       ← Back to Streams
     </button>
 
     <h3 id="selected-stream-title" class="text-3xl font-extrabold text-cbse-blue mb-8 text-center"></h3>
     <div id="subject-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
   </div>
+
 </main>
 
+
 <!-- Footer -->
-<footer class="bg-cbse-blue mt-16 py-8 text-center text-white">
+<footer class="bg-cbse-blue py-6 mt-auto text-center text-white">
   <small class="text-sm opacity-70">© 2025 Ready4Exam Academic Portal</small>
 </footer>
 
-<!-- Logic -->
+
+<!-- Logic Script -->
 <script type="module">
 import { curriculum } from "./js/curriculum.js";
 
@@ -150,8 +152,8 @@ window.showSubjects=function(stream){
   streamSection.classList.add("hidden");
   subjectSection.classList.remove("hidden");
   streamTitle.textContent=`${stream} Stream — Subjects`;
-
   subjectGrid.innerHTML="";
+
   const subjects=Object.keys(curriculum).filter(subj=>{
     return Object.values(curriculum[subj]).some(chapters=>
       Array.isArray(chapters) && chapters.some(ch=> ch.section && ch.section.includes(stream))
@@ -172,11 +174,10 @@ window.showSubjects=function(stream){
         <i data-lucide="book-open" class="text-cbse-blue h-8 w-8"></i>
         <h3 class="card-title">${subj}</h3>
       </div>
-      <p class="card-description">Explore all books & chapters for ${subj}.</p>
+      <p class="card-description">View books & chapters for ${subj}.</p>
       <div class="mt-6 text-center">
         <button class="card-button bg-cbse-blue hover:bg-blue-800 text-white">View Chapters</button>
-      </div>
-    `;
+      </div>`;
     subjectGrid.appendChild(card);
   });
 
@@ -190,6 +191,7 @@ window.backToStreams=function(){
 
 lucide.createIcons();
 </script>
+
 
 </body>
 </html>
