@@ -644,7 +644,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Algebra",
-        "table_id": "Ch 2",
+        "table_id": "algebra_algebra_quiz",
         "section": "Commerce"
       },
       {
