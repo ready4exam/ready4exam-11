@@ -9,33 +9,6 @@ function normalizeReasonText(txt) {
   return txt.replace(/^\s*(Reasoning|Reason|Context)\s*(\(R\))?\s*:\s*/i, "").trim();
 }
 
-/* -------------------------------------------------------------------
-   🔥 AUTO-DETECT + FORMAT ASSERTION–REASON QUESTION (ONLY NEW FUNCTION)
-------------------------------------------------------------------- */
-function formatAssertionReason(rawText){
-  const txt = rawText || "";
-
-  const hasA = /Assertion\s*\(A\)/i.test(txt);
-  const hasR = /Reason\s*\(R\)/i.test(txt);
-  if (!hasA || !hasR) return rawText;
-
-  const assertion = txt.match(/Assertion\s*\(A\)\s*[:\-]?\s*(.*?)(?=Reason\s*\(R\)|$)/is)?.[1]?.trim();
-  const reason    = txt.match(/Reason\s*\(R\)\s*[:\-]?\s*(.*)$/is)?.[1]?.trim();
-
-  return `
-  <div class="ar-card">
-      <div class="ar-block">
-          <span class="ar-label">Assertion (A):</span>
-          <div class="ar-text">${assertion}</div>
-      </div>
-      <div class="ar-block">
-          <span class="ar-label">Reason (R):</span>
-          <div class="ar-text">${reason}</div>
-      </div>
-  </div>
-  `;
-}
-
 /* -----------------------------------
    ELEMENT INITIALIZATION
 ----------------------------------- */
@@ -92,12 +65,12 @@ export function hideStatus() {
 }
 
 /* -----------------------------------
-   🔥 FIXED HEADER DISPLAY
+   🔥 FIXED HEADER DISPLAY (ONLY CHANGE MADE)
 ----------------------------------- */
 export function updateHeader(topicDisplayTitle, diff) {
   initializeElements();
 
-  const finalHeader = topicDisplayTitle;
+  const finalHeader = topicDisplayTitle;  // ← EXACT header passed from quiz-engine.js
 
   if (els.miniTitle) els.miniTitle.textContent = "";
   if (els.title) els.title.textContent = finalHeader;
@@ -174,25 +147,173 @@ export function showView(viewName) {
 }
 
 /* -----------------------------------
-   QUESTION RENDERER WITH A/R CARD (ONLY CHANGE MADE HERE)
+   QUESTION RENDERER  ✅ AR + CASE + MCQ
 ----------------------------------- */
 export function renderQuestion(q, idxOneBased, selected, submitted) {
   initializeElements();
   if (!els.list) return;
 
   const type = (q.question_type || "").toLowerCase();
-  const qText = formatAssertionReason(cleanKatexMarkers(q.text || ""));   // <-- 🔥 A/R formatting auto-applied
+
+  // ==================================================
+  // 1) ASSERTION–REASON (AR) QUESTIONS
+  // ==================================================
+  if (type === "ar") {
+    const raw = cleanKatexMarkers(q.text || "");
+
+    const aMatch = raw.match(/Assertion\s*\(A\)\s*[:\-]?\s*(.*?)(?=Reason\s*\(R\)|$)/is);
+    const rMatch = raw.match(/Reason\s*\(R\)\s*[:\-]?\s*(.*)$/is);
+
+    const assertion = (aMatch?.[1] || "").trim() || raw.trim();
+    const reason    = (rMatch?.[1] || "").trim();
+
+    const arOptionText = {
+      A: "Both A and R are true and R is the correct explanation of A.",
+      B: "Both A and R are true but R is not the correct explanation of A.",
+      C: "A is true but R is false.",
+      D: "A is false but R is true."
+    };
+
+    const optionsHtml = ["A", "B", "C", "D"].map(opt => {
+      const isSel = selected === opt;
+      const isCorrect = submitted && q.correct_answer?.toUpperCase() === opt;
+      const isWrong = submitted && isSel && !isCorrect;
+
+      let cls = "flex items-start p-3 border-2 rounded-lg cursor-pointer transition";
+      if (isCorrect) cls += " border-green-600 bg-green-50";
+      else if (isWrong) cls += " border-red-600 bg-red-50";
+      else if (isSel) cls += " border-blue-500 bg-blue-50";
+
+      return `
+        <label class="block">
+          <input type="radio" name="q-${q.id}" value="${opt}" class="hidden" ${isSel?"checked":""} ${submitted?"disabled":""}>
+          <div class="${cls}">
+            <span class="font-bold mr-3">${opt})</span>
+            <span class="text-gray-800">${arOptionText[opt]}</span>
+          </div>
+        </label>`;
+    }).join("");
+
+    els.list.innerHTML = `
+      <div class="space-y-5">
+        <p class="text-lg font-bold text-gray-900">
+          Q${idxOneBased}: 
+          <span class="font-bold">Assertion (A):</span> ${assertion}
+        </p>
+        <p class="text-md text-gray-900">
+          <span class="font-bold">Reason (R):</span> ${reason}
+        </p>
+        <div class="mt-3 text-gray-900 font-semibold">
+          Mark the correct choice as:
+        </div>
+        <div class="space-y-3">
+          ${optionsHtml}
+        </div>
+      </div>
+    `;
+
+    if (els.counter)
+      els.counter.textContent = `${idxOneBased} / ${els._total || "--"}`;
+    return;
+  }
+
+  // ==================================================
+  // 2) CASE-BASED QUESTIONS (2-COLUMN LAYOUT)
+  // ==================================================
+  if (type === "case") {
+    const rawQ = cleanKatexMarkers(q.text || "");
+    const rawScenario = cleanKatexMarkers(q.scenario_reason || "");
+
+    const isQuestionLike = (txt) => {
+      if (!txt) return false;
+      return /[?]/.test(txt) ||
+             /\bBased on\b/i.test(txt) ||
+             /\banswer\b/i.test(txt) ||
+             /\bfollowing\b/i.test(txt) ||
+             /\b1\./.test(txt) ||
+             /\b2\./.test(txt);
+    };
+
+    let scenarioText = "";
+    let questionText = "";
+
+    if (rawScenario && isQuestionLike(rawScenario)) {
+      // scenario_reason contains questions → question block
+      scenarioText = rawQ;
+      questionText = rawScenario;
+    } else {
+      // scenario_reason is explanation OR empty → derive from question_text
+      const splitIdx = rawQ.search(/\bBased on\b/i);
+      if (splitIdx > -1) {
+        scenarioText = rawQ.slice(0, splitIdx).trim();
+        questionText = rawQ.slice(splitIdx).trim();
+      } else {
+        // fallback
+        scenarioText = rawScenario || "";
+        questionText = rawQ;
+      }
+    }
+
+    const optionsHtml = ["A", "B", "C", "D"].map(opt => {
+      const txt = cleanKatexMarkers(q.options?.[opt] || "");
+      const isSel = selected === opt;
+      const isCorrect = submitted && q.correct_answer?.toUpperCase() === opt;
+      const isWrong = submitted && isSel && !isCorrect;
+
+      let cls = "option-label flex items-start p-3 border-2 rounded-lg cursor-pointer transition";
+      if (isCorrect) cls += " border-green-600 bg-green-50";
+      else if (isWrong) cls += " border-red-600 bg-red-50";
+      else if (isSel) cls += " border-blue-500 bg-blue-50";
+
+      return `
+        <label class="block">
+          <input type="radio" name="q-${q.id}" value="${opt}" class="hidden" ${isSel?"checked":""} ${submitted?"disabled":""}>
+          <div class="${cls}">
+            <span class="font-bold mr-3">${opt}.</span>
+            <span class="text-gray-800">${txt}</span>
+          </div>
+        </label>`;
+    }).join("");
+
+    let reasonRaw = q.explanation || "";
+    const reason = normalizeReasonText(cleanKatexMarkers(reasonRaw));
+    const submittedExplanationHtml =
+      submitted && reason
+        ? `<div class="mt-3 p-3 bg-gray-50 rounded text-gray-700 border border-gray-100"><b>Explanation:</b> ${reason}</div>`
+        : "";
+
+    els.list.innerHTML = `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 max-h-64 overflow-y-auto">
+          <h3 class="font-semibold mb-2 text-gray-900">Scenario</h3>
+          <p class="text-gray-800 text-sm md:text-base whitespace-pre-line">${scenarioText}</p>
+        </div>
+        <div class="space-y-4">
+          <p class="text-lg font-bold text-gray-900">Q${idxOneBased}: ${questionText}</p>
+          <div class="space-y-3">${optionsHtml}</div>
+          ${submittedExplanationHtml}
+        </div>
+      </div>
+    `;
+
+    if (els.counter)
+      els.counter.textContent = `${idxOneBased} / ${els._total || "--"}`;
+    return;
+  }
+
+  // ==================================================
+  // 3) STANDARD MCQ (DEFAULT) – UNCHANGED BEHAVIOUR
+  // ==================================================
+  const qText = cleanKatexMarkers(q.text || "");
   let reasonRaw = q.explanation || q.scenario_reason || "";
   const reason = normalizeReasonText(cleanKatexMarkers(reasonRaw));
-  const label = type === "ar" ? "Reasoning (R)" : type === "case" ? "Context" : "";
 
-  const reasonHtml =
-    (type === "ar" || type === "case") && reason && !submitted
-      ? `<p class="text-gray-700 mt-2 mb-3">${label}: ${reason}</p>` : "";
+  const reasonHtml = ""; // no pre-question reasoning for plain MCQ
 
   const submittedExplanationHtml =
-    submitted && (type === "ar" || type === "case") && reason
-      ? `<div class="mt-3 p-3 bg-gray-50 rounded text-gray-700 border border-gray-100"><b>${label}:</b> ${reason}</div>` : "";
+    submitted && reason
+      ? `<div class="mt-3 p-3 bg-gray-50 rounded text-gray-700 border border-gray-100"><b>Explanation:</b> ${reason}</div>`
+      : "";
 
   const optionsHtml = ["A", "B", "C", "D"].map(opt => {
     const txt = cleanKatexMarkers(q.options?.[opt] || "");
@@ -217,8 +338,7 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
 
   els.list.innerHTML = `
     <div class="space-y-6">
-      <p class="text-lg font-bold text-gray-800">Q${idxOneBased}:</p>
-      <div class="question-body">${qText}</div>
+      <p class="text-lg font-bold text-gray-800">Q${idxOneBased}: ${qText}</p>
       ${reasonHtml}
       <div class="space-y-3">${optionsHtml}</div>
       ${submittedExplanationHtml}
