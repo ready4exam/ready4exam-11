@@ -116,7 +116,7 @@ export const curriculum = {
     "Chemistry Part II": [
       {
         "chapter_title": "Redox Reactions",
-        "table_id": "Ch 1",
+        "table_id": "redox_reactions_quiz",
         "section": "Science"
       },
       {
