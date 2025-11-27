@@ -65,12 +65,12 @@ export function hideStatus() {
 }
 
 /* -----------------------------------
-   🔥 FIXED HEADER DISPLAY (ONLY CHANGE MADE)
+   🔥 FIXED HEADER DISPLAY
 ----------------------------------- */
 export function updateHeader(topicDisplayTitle, diff) {
   initializeElements();
 
-  const finalHeader = topicDisplayTitle;  // ← EXACT header passed from quiz-engine.js
+  const finalHeader = topicDisplayTitle;
 
   if (els.miniTitle) els.miniTitle.textContent = "";
   if (els.title) els.title.textContent = finalHeader;
@@ -147,7 +147,7 @@ export function showView(viewName) {
 }
 
 /* -----------------------------------
-   QUESTION RENDERER  ✅ AR + CASE + MCQ
+   QUESTION RENDERER (AR / CASE / MCQ)
 ----------------------------------- */
 export function renderQuestion(q, idxOneBased, selected, submitted) {
   initializeElements();
@@ -155,18 +155,14 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
 
   const type = (q.question_type || "").toLowerCase();
 
-  // ==========================================================
-  // TYPE 1: ASSERTION–REASON (AR)
-  // ==========================================================
+  /* ================== ASSERTION-REASON ================== */
   if (type === "ar") {
     const rawQ = cleanKatexMarkers(q.text || "");
     const rawReasonSource = cleanKatexMarkers(q.scenario_reason || q.explanation || "");
 
-    // ---- extract Assertion ----
     let assertion = "";
     let reason = "";
 
-    // Case: both A and R in same text
     const bothMatch = rawQ.match(
       /Assertion\s*\(A\)\s*[:\-]?\s*(.*?)(?:Reason\s*\(R\)\s*[:\-]?\s*(.*))?$/is
     );
@@ -175,7 +171,6 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
       if (bothMatch[2]) reason = bothMatch[2].trim();
     }
 
-    // Case: only Assertion in question_text
     if (!assertion) {
       const aOnly = rawQ.match(/Assertion\s*\(A\)\s*[:\-]?\s*(.*)$/is);
       if (aOnly) assertion = aOnly[1].trim();
@@ -183,15 +178,12 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
 
     if (!assertion) assertion = rawQ.trim();
 
-    // ---- extract Reason ----
     if (!reason) {
-      // 1) try inline Reason in question_text
       const rInline = rawQ.match(/Reason\s*\(R\)\s*[:\-]?\s*(.*)$/is);
       if (rInline?.[1]) reason = rInline[1].trim();
     }
 
     if (!reason && rawReasonSource) {
-      // 2) Reason stored in explanation or scenario_reason
       if (/Reason\s*\(R\)/i.test(rawReasonSource)) {
         reason = rawReasonSource.replace(/.*Reason\s*\(R\)\s*[:\-]?\s*/i, "").trim();
       } else {
@@ -201,7 +193,6 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
 
     if (!reason) reason = "";
 
-    // Fixed AR options text (no DB options)
     const arOptionText = {
       A: "Both A and R are true and R is the correct explanation of A.",
       B: "Both A and R are true but R is not the correct explanation of A.",
@@ -251,9 +242,7 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
     return;
   }
 
-  // ==========================================================
-  // TYPE 2: CASE-BASED (2-COLUMN LAYOUT, Rule 2)
-  // ==========================================================
+  /* ================== CASE BASED ================== */
   if (type === "case") {
     const rawQ = cleanKatexMarkers(q.text || "");
     const rawScenario = cleanKatexMarkers(q.scenario_reason || "");
@@ -272,15 +261,12 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
     let questionText = "";
 
     if (rawScenario && isQuestionLike(rawScenario)) {
-      // scenario_reason holds questions → treat as question block
       scenarioText = rawQ;
       questionText = rawScenario;
     } else if (rawScenario) {
-      // scenario_reason is the scenario, question_text is actual question
       scenarioText = rawScenario;
       questionText = rawQ;
     } else {
-      // fallback: split question_text by "Based on" / "Considering"
       const splitMatch = rawQ.match(/(Based on.*|Considering.*|Answer the following.*)/is);
       if (splitMatch && splitMatch.index > 0) {
         scenarioText = rawQ.slice(0, splitMatch.index).trim();
@@ -312,7 +298,6 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
         </label>`;
     }).join("");
 
-    // explanation after submission (optional)
     let reasonRaw = q.explanation || "";
     const reason = normalizeReasonText(cleanKatexMarkers(reasonRaw));
     const submittedExplanationHtml =
@@ -338,13 +323,11 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
     return;
   }
 
-  // ==========================================================
-  // TYPE 3: STANDARD MCQ (OR ANY OTHER TYPE) — ORIGINAL BEHAVIOUR
-  // ==========================================================
+  /* ================== NORMAL MCQ ================== */
   const qText = cleanKatexMarkers(q.text || "");
   let reasonRaw = q.explanation || q.scenario_reason || "";
   const reason = normalizeReasonText(cleanKatexMarkers(reasonRaw));
-  const label = type === "ar" ? "Reasoning (R)" : type === "case" ? "Context" : "";
+  const label = type === "case" ? "Context" : "Reasoning (R)";
 
   const reasonHtml =
     (type === "ar" || type === "case") && reason && !submitted
@@ -418,7 +401,7 @@ export function updateNavigation(index, total, submitted) {
 }
 
 /* -----------------------------------
-   RESULTS + REVIEW
+   RESULTS + REVIEW (CLEAN - NO DUPLICATION)
 ----------------------------------- */
 export function showResults(score, total) {
   initializeElements();
@@ -433,7 +416,8 @@ export function renderAllQuestionsForReview(questions, userAnswers = {}) {
   const html = questions.map((q, i) => {
     const txt = cleanKatexMarkers(q.text || "");
     const reason = normalizeReasonText(cleanKatexMarkers(q.explanation || ""));
-    const label = q.question_type?.toLowerCase() === "case" ? "Context" : "Reasoning (R)";
+    const isCase = q.question_type?.toLowerCase() === "case";
+    const label = isCase ? "Context" : "Reasoning (R)";
     const ua = userAnswers[q.id] || "-";
     const ca = q.correct_answer || "-";
     const correct = ua && ua.toUpperCase() === ca.toUpperCase();
@@ -448,36 +432,5 @@ export function renderAllQuestionsForReview(questions, userAnswers = {}) {
   }).join("");
 
   els.reviewContainer.innerHTML = html;
-
-  const retryBlock = document.createElement("div");
-  retryBlock.className = "text-center mt-8 space-y-4";
-  retryBlock.innerHTML = `
-    <h3 class="text-lg font-semibold mb-3">Try Again or Explore</h3>
-    <div class="flex justify-center gap-3 flex-wrap">
-      <button data-diff="simple" class="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700">Simple (Easy)</button>
-      <button data-diff="medium" class="px-5 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Medium</button>
-      <button data-diff="advanced" class="px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700">Advanced (Hard)</button>
-    </div>
-    <button id="back-to-chapters-btn" class="mt-4 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700">Go Back to Chapter Selection</button>
-  `;
-
-  els.reviewContainer.appendChild(retryBlock);
-
-  retryBlock.addEventListener("click", (e) => {
-    const btn = e.target.closest("button[data-diff]");
-    if (btn) {
-      const params = new URLSearchParams(window.location.search);
-      params.set("difficulty", btn.dataset.diff);
-      window.location.href = `quiz-engine.html?${params.toString()}`;
-      return;
-    }
-
-    if (e.target.id === "back-to-chapters-btn") {
-      const url = new URL(window.location.href);
-      const subject = url.searchParams.get("subject") || "";
-      window.location.href = `chapter-selection.html?subject=${encodeURIComponent(subject)}`;
-    }
-  });
-
   showView("results-screen");
 }
