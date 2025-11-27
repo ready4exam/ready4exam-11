@@ -160,9 +160,27 @@ export function renderQuestion(q, idxOneBased, selected, submitted) {
   // ==================================================
   if (type === "ar") {
     const raw = cleanKatexMarkers(q.text || "");
+const reasonSource = cleanKatexMarkers(q.scenario_reason || q.explanation || "");
 
-    const aMatch = raw.match(/Assertion\s*\(A\)\s*[:\-]?\s*(.*?)(?=Reason\s*\(R\)|$)/is);
-    const rMatch = raw.match(/Reason\s*\(R\)\s*[:\-]?\s*(.*)$/is);
+// extract Assertion from question text
+const aMatch = raw.match(/Assertion\s*\(A\)\s*[:\-]?\s*(.*)$/is);
+const assertion = (aMatch?.[1] || raw || "").trim();
+
+// extract Reason from ANY source
+let reason = "";
+
+// Case 1 — Reason present in same text
+const rInline = raw.match(/Reason\s*\(R\)\s*[:\-]?\s*(.*)$/is);
+if (rInline?.[1]) reason = rInline[1].trim();
+
+// Case 2 — If Reason is stored in explanation / scenario_reason
+if (!reason && /Reason\s*\(R\)\s*:?/i.test(reasonSource)) {
+    reason = reasonSource.replace(/Reason\s*\(R\)\s*:?\s*/i,"").trim();
+}
+
+// Case 3 — fallback (still nothing)
+if (!reason) reason = "(Reason not provided)";
+
 
     const assertion = (aMatch?.[1] || "").trim() || raw.trim();
     const reason    = (rMatch?.[1] || "").trim();
