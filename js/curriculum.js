@@ -13,7 +13,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Motion in a Straight Line",
-        "table_id": "Ch 3",
+        "table_id": "motion_line_quiz",
         "section": "Science"
       },
       {
