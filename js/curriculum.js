@@ -23,7 +23,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Laws of Motion",
-        "table_id": "Ch 5",
+        "table_id": "laws_motion_quiz",
         "section": "Science"
       },
       {
