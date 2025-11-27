@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 
   <style>
-    /* 🔥 Your CSS fixed & placed correctly */
     html, body {
       height: 100%;
       width: 100%;
@@ -56,16 +55,24 @@
     </div>
   </div>
 
-  <div id="auth-nav-container" class="flex items-center space-x-4">
-    <span id="welcome-user" class="hidden text-sm text-white"></span>
-    <span id="difficulty-display"
-      class="px-3 py-1 text-sm font-semibold bg-yellow-100 text-yellow-800 rounded-full">
-      Difficulty: Simple
-    </span>
-    <button id="logout-nav-btn"
-      class="hidden px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
-      Sign Out
-    </button>
+  <div class="flex items-center space-x-4">
+    <!-- 🔙 Back to chapter section (dynamic subject) -->
+    <a id="back-chapters-btn"
+       class="text-sm text-white underline underline-offset-4 hover:text-accent-gold">
+      ← Back to Chapter Section
+    </a>
+
+    <div id="auth-nav-container" class="flex items-center space-x-4">
+      <span id="welcome-user" class="hidden text-sm text-white"></span>
+      <span id="difficulty-display"
+        class="px-3 py-1 text-sm font-semibold bg-yellow-100 text-yellow-800 rounded-full">
+        Difficulty: Simple
+      </span>
+      <button id="logout-nav-btn"
+        class="hidden px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+        Sign Out
+      </button>
+    </div>
   </div>
 </header>
 
@@ -110,6 +117,21 @@
 <footer class="bg-cbse-blue text-white text-center py-6 mt-auto">
   <small class="opacity-80">© 2025 Ready4Exam Academic Portal. All Rights Reserved.</small>
 </footer>
+
+<!-- 🔗 Dynamic Back-link logic -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+
+    // subject from URL if present, fallback to Chemistry
+    const subject = params.get("subject") || "Chemistry";
+
+    const backBtn = document.getElementById("back-chapters-btn");
+    if (backBtn) {
+      backBtn.href = `chapter-selection.html?subject=${encodeURIComponent(subject)}`;
+    }
+  });
+</script>
 
 <!-- Firebase + Supabase Keys -->
 <script>
