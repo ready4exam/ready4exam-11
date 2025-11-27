@@ -461,7 +461,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Bank Reconciliation Statement",
-        "table_id": "Ch 5",
+        "table_id": "bank_statement_quiz",
         "section": "Commerce"
       },
       {
