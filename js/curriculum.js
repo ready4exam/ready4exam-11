@@ -104,7 +104,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Thermodynamics",
-        "table_id": "Ch 5",
+        "table_id": "thermodynamics_thermodynamics_quiz",
         "section": "Science"
       },
       {
