@@ -988,7 +988,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Map Scales",
-        "table_id": "Ch 2",
+        "table_id": "map_scales_11_quiz",
         "section": "Humanities"
       },
       {
