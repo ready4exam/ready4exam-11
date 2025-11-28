@@ -976,7 +976,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Natural Hazards and Disasters",
-        "table_id": "Ch 7",
+        "table_id": "natural_disasters_11_quiz",
         "section": "Humanities"
       }
     ],
