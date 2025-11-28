@@ -971,7 +971,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Soils",
-        "table_id": "Ch 6",
+        "table_id": "soils_soils_11_quiz",
         "section": "Humanities"
       },
       {
