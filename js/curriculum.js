@@ -160,7 +160,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Plant Kingdom",
-        "table_id": "Ch 3",
+        "table_id": "plant_kingdom_11_quiz",
         "section": "Science"
       },
       {
