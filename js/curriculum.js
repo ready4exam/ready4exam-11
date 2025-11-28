@@ -180,7 +180,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Structural Organisation in Animals",
-        "table_id": "Ch 7",
+        "table_id": "structural_animals_11_quiz",
         "section": "Science"
       },
       {
