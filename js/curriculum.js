@@ -713,7 +713,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Displacing Indigenous Peoples",
-        "table_id": "Ch 7",
+        "table_id": "displacing_peoples_11_quiz",
         "section": "Humanities"
       },
       {
