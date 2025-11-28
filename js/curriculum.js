@@ -1013,7 +1013,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Remote Sensing",
-        "table_id": "Ch 7",
+        "table_id": "remote_sensing_11_quiz",
         "section": "Humanities"
       },
       {
