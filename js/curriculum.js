@@ -961,7 +961,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Climate",
-        "table_id": "Ch 4",
+        "table_id": "climate_climate_11_quiz",
         "section": "Humanities"
       },
       {
