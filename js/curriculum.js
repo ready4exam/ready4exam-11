@@ -220,7 +220,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Plant Growth and Development",
-        "table_id": "Ch 15",
+        "table_id": "plant_development_11_quiz",
         "section": "Science"
       },
       {
