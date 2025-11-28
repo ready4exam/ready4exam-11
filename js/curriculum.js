@@ -190,7 +190,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Biomolecules",
-        "table_id": "Ch 9",
+        "table_id": "biomolecules_biomolecules_11_quiz",
         "section": "Science"
       },
       {
