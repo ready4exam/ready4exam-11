@@ -165,7 +165,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Animal Kingdom",
-        "table_id": "Ch 4",
+        "table_id": "animal_kingdom_11_quiz",
         "section": "Science"
       },
       {
