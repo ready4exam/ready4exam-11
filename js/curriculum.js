@@ -185,7 +185,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Cell: The Unit of Life",
-        "table_id": "Ch 8",
+        "table_id": "cell_life_11_quiz",
         "section": "Science"
       },
       {
