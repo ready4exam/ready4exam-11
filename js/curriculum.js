@@ -215,7 +215,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Respiration in Plants",
-        "table_id": "Ch 14",
+        "table_id": "respiration_plants_11_quiz",
         "section": "Science"
       },
       {
