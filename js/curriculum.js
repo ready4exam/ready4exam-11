@@ -919,7 +919,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Atmospheric Circulation and Weather Systems",
-        "table_id": "Ch 9",
+        "table_id": "atmospheric_systems_11_quiz",
         "section": "Humanities"
       },
       {
