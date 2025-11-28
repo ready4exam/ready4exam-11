@@ -532,7 +532,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Social Responsibility of Business and Business Ethics",
-        "table_id": "Ch 6",
+        "table_id": "social_ethics_11_quiz",
         "section": "Commerce"
       }
     ],
