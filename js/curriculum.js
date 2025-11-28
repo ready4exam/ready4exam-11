@@ -1008,7 +1008,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Aerial Photographs",
-        "table_id": "Ch 6",
+        "table_id": "aerial_photographs_11_quiz",
         "section": "Humanities"
       },
       {
