@@ -610,7 +610,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Theory of Consumer Behaviour",
-        "table_id": "Ch 2",
+        "table_id": "theory_behaviour_quiz",
         "section": "Commerce"
       },
       {
