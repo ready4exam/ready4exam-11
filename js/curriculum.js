@@ -889,7 +889,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Distribution of Oceans and Continents",
-        "table_id": "Ch 3",
+        "table_id": "distribution_continents_11_quiz",
         "section": "Humanities"
       },
       {
