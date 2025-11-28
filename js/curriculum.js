@@ -966,7 +966,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Natural Vegetation",
-        "table_id": "Ch 5",
+        "table_id": "natural_vegetation_11_quiz",
         "section": "Humanities"
       },
       {
