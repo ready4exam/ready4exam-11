@@ -934,7 +934,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Water (Oceans)",
-        "table_id": "Ch 12",
+        "table_id": "water_oceans_11_quiz",
         "section": "Humanities"
       },
       {
