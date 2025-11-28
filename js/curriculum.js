@@ -649,7 +649,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Mathematical Reasoning",
-        "table_id": "Ch 3",
+        "table_id": "mathematical_reasoning_11_quiz",
         "section": "Commerce"
       },
       {
