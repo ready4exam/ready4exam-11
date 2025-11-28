@@ -471,7 +471,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Depreciation, Provisions and Reserves",
-        "table_id": "Ch 7",
+        "table_id": "depreciation_reserves_11_quiz",
         "section": "Commerce"
       }
     ],
