@@ -488,7 +488,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Financial Statements II (With Adjustments)",
-        "table_id": "Ch 3",
+        "table_id": "financial_adjustments_11_quiz",
         "section": "Commerce"
       },
       {
