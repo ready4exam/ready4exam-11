@@ -909,7 +909,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Composition and Structure of Atmosphere",
-        "table_id": "Ch 7",
+        "table_id": "composition_atmosphere_11_quiz",
         "section": "Humanities"
       },
       {
