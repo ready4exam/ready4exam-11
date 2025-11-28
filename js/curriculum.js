@@ -939,7 +939,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Life on the Earth (Biosphere)",
-        "table_id": "Ch 13",
+        "table_id": "life_biosphere_11_quiz",
         "section": "Humanities"
       }
     ],
