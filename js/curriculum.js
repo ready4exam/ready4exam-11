@@ -1018,7 +1018,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Geographical Information System (GIS)",
-        "table_id": "Ch 8",
+        "table_id": "geographical_gis_11_quiz",
         "section": "Humanities"
       }
     ]
