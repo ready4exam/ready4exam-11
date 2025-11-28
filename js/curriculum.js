@@ -833,7 +833,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Understanding Social Institutions",
-        "table_id": "Ch 3",
+        "table_id": "understanding_institutions_quiz",
         "section": "Humanities"
       },
       {
