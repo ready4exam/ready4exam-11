@@ -615,7 +615,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Production and Costs",
-        "table_id": "Ch 3",
+        "table_id": "production_costs_quiz",
         "section": "Commerce"
       },
       {
