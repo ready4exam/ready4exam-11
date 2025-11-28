@@ -929,7 +929,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "World Climate and Climate Change",
-        "table_id": "Ch 11",
+        "table_id": "world_change_11_quiz",
         "section": "Humanities"
       },
       {
