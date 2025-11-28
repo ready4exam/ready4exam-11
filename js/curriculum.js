@@ -669,7 +669,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Financial Mathematics",
-        "table_id": "Ch 7",
+        "table_id": "financial_mathematics_11_quiz",
         "section": "Commerce"
       },
       {
