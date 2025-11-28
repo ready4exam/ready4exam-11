@@ -946,7 +946,7 @@ export const curriculum = {
     "India: Physical Environment": [
       {
         "chapter_title": "Introduction",
-        "table_id": "Ch 1",
+        "table_id": "introduction_introduction_11_quiz",
         "section": "Humanities"
       },
       {
