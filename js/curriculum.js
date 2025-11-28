@@ -904,7 +904,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Landforms and their Evolution",
-        "table_id": "Ch 6",
+        "table_id": "landforms_evolution_11_quiz",
         "section": "Humanities"
       },
       {
