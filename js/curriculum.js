@@ -554,7 +554,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "International Business",
-        "table_id": "Ch 4",
+        "table_id": "international_business_11_quiz",
         "section": "Commerce"
       }
     ]
