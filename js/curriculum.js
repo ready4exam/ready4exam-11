@@ -654,7 +654,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Calculus",
-        "table_id": "Ch 4",
+        "table_id": "calculus_calculus_11_quiz",
         "section": "Commerce"
       },
       {
