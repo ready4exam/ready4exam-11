@@ -1003,7 +1003,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Topographical Maps",
-        "table_id": "Ch 5",
+        "table_id": "topographical_maps_11_quiz",
         "section": "Humanities"
       },
       {
