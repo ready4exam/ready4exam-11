@@ -235,7 +235,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Body Fluids and Circulation",
-        "table_id": "Ch 18",
+        "table_id": "body_circulation_11_quiz",
         "section": "Science"
       },
       {
