@@ -884,7 +884,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "The Earth",
-        "table_id": "Ch 2",
+        "table_id": "earth_earth_11_quiz",
         "section": "Humanities"
       },
       {
