@@ -951,7 +951,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Structure and Physiography",
-        "table_id": "Ch 2",
+        "table_id": "structure_physiography_11_quiz",
         "section": "Humanities"
       },
       {
