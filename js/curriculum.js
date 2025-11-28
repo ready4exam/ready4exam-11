@@ -894,7 +894,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Minerals and Rocks",
-        "table_id": "Ch 4",
+        "table_id": "minerals_rocks_11_quiz",
         "section": "Humanities"
       },
       {
