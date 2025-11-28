@@ -993,7 +993,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Latitude, Longitude and Time",
-        "table_id": "Ch 3",
+        "table_id": "latitude_time_11_quiz",
         "section": "Humanities"
       },
       {
