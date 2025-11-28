@@ -899,7 +899,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Geomorphic Processes",
-        "table_id": "Ch 5",
+        "table_id": "geomorphic_processes_11_quiz",
         "section": "Humanities"
       },
       {
