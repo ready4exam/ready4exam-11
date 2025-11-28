@@ -914,7 +914,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Solar Radiation, Heat Balance and Temperature",
-        "table_id": "Ch 8",
+        "table_id": "solar_temperature_11_quiz",
         "section": "Humanities"
       },
       {
