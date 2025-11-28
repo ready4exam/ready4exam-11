@@ -28,7 +28,7 @@ body{
   font-family:'Inter',sans-serif;overflow-x:hidden;
 }
 
-/* --- CARD MOBILE FIRST --- */
+/* --- CARD DESIGN --- */
 .subject-card{
   width:100%;background:white;padding:1.4rem 1.1rem;
   border-radius:18px;border:1px solid rgba(0,0,0,.05);
@@ -61,6 +61,30 @@ body{
 /* Fade */
 .fade-in{animation:fade .6s ease forwards;opacity:0;}
 @keyframes fade{to{opacity:1}}
+
+
+/* ────────────────────────────────────────────────
+   FINAL MOBILE FIX (vertical stacking + more height)
+   DOES NOT AFFECT LAPTOP / DESKTOP
+   ──────────────────────────────────────────────── */
+@media(max-width: 768px) {
+
+  #stream-section {
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    padding-bottom:40vh;     /* removes bottom empty blank space */
+  }
+
+  .subject-card{
+    min-height:180px;        /* bigger & readable mobile layout */
+    padding:1.8rem;
+  }
+
+  main{
+    padding-bottom:60px;
+  }
+}
 </style>
 </head>
 
@@ -74,15 +98,15 @@ body{
 </header>
 
 
-<main class="flex-grow w-full max-w-[1050px] mx-auto px-4 py-8 fade-in">
+<main class="flex-grow w-full max-w-[1050px] mx-auto px-4 py-10 fade-in">
 
   <h2 class="text-3xl font-extrabold text-heading text-center">CBSE Class 11 Streams</h2>
   <p class="text-base text-gray-600 text-center mt-1 mb-8">
      Select your stream to get started.
   </p>
 
-  <!-- MOBILE first layout -->
-  <div id="stream-section" class="grid grid-cols-1 gap-6 md:grid-cols-3">
+  <!-- Streams -->
+  <div id="stream-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
     <div onclick="showSubjects('Science')" class="subject-card">
       <div class="card-header">
@@ -140,7 +164,7 @@ body{
 
 
 
-<!-- SAME JS (no changes) -->
+<!-- LOGIC (unchanged) -->
 <script type="module">
 import { curriculum } from "./js/curriculum.js";
 
