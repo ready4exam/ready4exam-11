@@ -68,14 +68,13 @@ body{
    ──────────────────────────────────────────────── */
 @media(max-width: 768px) {
 
-  /* DO NOT touch display here, so Tailwind .hidden works */
   #stream-section {
     gap:24px;
-    padding-bottom:40vh;     /* adds length so bottom isn’t empty */
+    padding-bottom:40vh;   /* removes blank lower gap */
   }
 
   .subject-card{
-    min-height:180px;        /* bigger & readable mobile layout */
+    min-height:180px;
     padding:1.8rem;
   }
 
@@ -98,12 +97,33 @@ body{
 
 <main class="flex-grow w-full max-w-[1050px] mx-auto px-4 py-10 fade-in">
 
-  <h2 class="text-3xl font-extrabold text-heading text-center">CBSE Class 11 Streams</h2>
-  <p class="text-base text-gray-600 text-center mt-1 mb-8">
-     Select your stream to get started.
-  </p>
+  <!-- ───────────── Welcome / Content Block ───────────── -->
+  <section class="text-center mb-10 px-3 leading-relaxed">
 
-  <!-- Stream selection (works on laptop & mobile) -->
+    <h2 class="text-3xl md:text-4xl font-extrabold text-heading mb-3">
+      Welcome to CBSE Class 11 Learning Hub 🤝
+    </h2>
+
+    <p class="text-gray-700 text-base md:text-lg max-w-3xl mx-auto">
+      You are stepping into a foundation year for your future.  
+      Every subject matters — every stream opens opportunities —  
+      and your learning journey begins right here.
+    </p>
+
+    <p class="text-gray-600 text-sm md:text-base mt-3 max-w-2xl mx-auto leading-relaxed">
+      Whether you choose <span class="font-semibold">Science</span>, <span class="font-semibold">Commerce</span>,  
+      or <span class="font-semibold">Humanities / Arts</span>, each path leads to growth,  
+      knowledge & a strong academic future.
+    </p>
+
+    <p class="text-lg md:text-xl font-semibold text-cbse-blue mt-6">
+      Select your stream below and begin learning 📘
+    </p>
+
+  </section>
+
+
+  <!-- ───────────── Stream Selection Grid ───────────── -->
   <div id="stream-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
     <div onclick="showSubjects('Science')" class="subject-card">
@@ -133,7 +153,7 @@ body{
         <i data-lucide="landmark" class="text-purple-700 h-8 w-8"></i>
         <h3 class="card-title">Humanities / Arts</h3>
       </div>
-      <p class="card-description">History, Pol.Science, Geo, English, Economics.</p>
+      <p class="card-description">History, Pol. Science, Geo, English, Economics.</p>
       <div class="mt-5 text-center">
         <button class="card-button arts">Explore Subjects</button>
       </div>
@@ -142,7 +162,7 @@ body{
   </div>
 
 
-  <!-- SUBJECT SECTION -->
+  <!-- ───────────── Subjects After Selection ───────────── -->
   <div id="subject-section" class="hidden mt-8 fade-in">
 
     <button onclick="backToStreams()"
@@ -152,10 +172,24 @@ body{
 
     <h3 id="selected-stream-title" class="text-2xl font-extrabold text-cbse-blue text-center my-4"></h3>
 
-    <!-- Now multi-column on laptop, stacked on mobile -->
     <div id="subject-grid" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3"></div>
   </div>
+
+
+
+  <!-- ───────────── Motivational END Block ───────────── -->
+  <section class="text-center px-5 py-10 mt-14 mb-4">
+    <h3 class="text-xl md:text-2xl font-bold text-cbse-blue leading-snug">
+      "You don’t need to be perfect — just better than yesterday."
+    </h3>
+    <p class="text-gray-600 text-sm md:text-base mt-2 max-w-xl mx-auto leading-relaxed">
+      Every chapter you learn adds to your strength.  
+      One step at a time — keep growing.
+    </p>
+  </section>
+
 </main>
+
 
 
 <footer class="bg-cbse-blue text-white text-center py-5 mt-auto">
@@ -164,7 +198,7 @@ body{
 
 
 
-<!-- LOGIC (unchanged) -->
+<!-- SCRIPT (unchanged) -->
 <script type="module">
 import { curriculum } from "./js/curriculum.js";
 
@@ -174,7 +208,6 @@ const subjectGrid=document.getElementById("subject-grid");
 const streamTitle=document.getElementById("selected-stream-title");
 
 window.showSubjects=function(stream){
-  // hide stream cards, show subjects
   streamSection.classList.add("hidden");
   subjectSection.classList.remove("hidden");
   streamTitle.textContent=`${stream} Stream — Subjects`;
