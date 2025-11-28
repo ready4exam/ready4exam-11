@@ -478,7 +478,7 @@ export const curriculum = {
     "Financial Accounting Part II": [
       {
         "chapter_title": "Accounting for Bills of Exchange",
-        "table_id": "Ch 1",
+        "table_id": "accounting_exchange_11_quiz",
         "section": "Commerce"
       },
       {
