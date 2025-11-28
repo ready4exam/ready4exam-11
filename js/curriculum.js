@@ -998,7 +998,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Map Projections",
-        "table_id": "Ch 4",
+        "table_id": "map_projections_11_quiz",
         "section": "Humanities"
       },
       {
