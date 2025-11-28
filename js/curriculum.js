@@ -838,7 +838,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Culture and Socialisation",
-        "table_id": "Ch 4",
+        "table_id": "culture_socialisation_quiz",
         "section": "Humanities"
       },
       {
