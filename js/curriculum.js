@@ -493,7 +493,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Accounts from Incomplete Records",
-        "table_id": "Ch 4",
+        "table_id": "accounts_records_11_quiz",
         "section": "Commerce"
       },
       {
