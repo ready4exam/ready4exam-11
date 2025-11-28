@@ -674,7 +674,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Coordinate Geometry",
-        "table_id": "Ch 8",
+        "table_id": "coordinate_geometry_11_quiz",
         "section": "Commerce"
       }
     ]
