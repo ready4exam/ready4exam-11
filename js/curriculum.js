@@ -230,7 +230,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Breathing and Exchange of Gases",
-        "table_id": "Ch 17",
+        "table_id": "breathing_gases_11_quiz",
         "section": "Science"
       },
       {
