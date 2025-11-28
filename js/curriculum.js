@@ -522,7 +522,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Business Services",
-        "table_id": "Ch 4",
+        "table_id": "business_services_11_quiz",
         "section": "Commerce"
       },
       {
