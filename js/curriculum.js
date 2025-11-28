@@ -250,7 +250,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Neural Control and Coordination",
-        "table_id": "Ch 21",
+        "table_id": "neural_coordination_11_quiz",
         "section": "Science"
       },
       {
