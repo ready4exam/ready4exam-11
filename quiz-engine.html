@@ -47,17 +47,16 @@
   </div>
 
   <div class="flex items-center space-x-4">
-    <a id="back-chapters-btn" class="text-sm text-white underline hover:text-accent-gold">
-      ← Back to Chapter Section
-    </a>
+      <!-- 🔥 Welcome Username appears here -->
+      <span id="user-welcome" class="text-sm text-white font-semibold"></span>
 
-    <span id="difficulty-display"
-      class="px-3 py-1 text-sm font-semibold bg-yellow-100 text-yellow-800 rounded-full">
-      Difficulty: Simple
-    </span>
+      <span id="difficulty-display"
+        class="px-3 py-1 text-sm font-semibold bg-yellow-100 text-yellow-800 rounded-full">
+        Difficulty: Simple
+      </span>
 
-    <button id="logout-nav-btn"
-      class="hidden px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Sign Out</button>
+      <button id="logout-nav-btn"
+        class="hidden px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Sign Out</button>
   </div>
 </header>
 
@@ -100,7 +99,6 @@
   <p class="text-lg text-gray-700 mb-3">Your Final Score:</p>
   <p id="score-display" class="text-5xl font-bold text-blue-700 mb-8">-- / --</p>
 
-  <!-- 🔥 Difficulty change buttons - now working -->
   <div class="flex gap-3 mb-6">
       <button onclick="changeDifficulty('simple')" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">Simple (Easy)</button>
       <button onclick="changeDifficulty('medium')" class="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Medium</button>
@@ -119,7 +117,7 @@
 </footer>
 
 
-<!-- ENABLE difficulty reload -->
+<!-- DIFFICULTY SWITCH -->
 <script>
 function changeDifficulty(level){
   const url = new URL(window.location.href);
@@ -134,6 +132,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(location.search);
     const subject = params.get("subject") || "Chemistry";
 
+    /* 🔥 Show logged-in user email as Welcome */
+    if (window.auth) {
+      auth.onAuthStateChanged(user => {
+        if (user?.email) {
+          const username = user.email.split("@")[0]; // only first part
+          document.getElementById("user-welcome").textContent = `Welcome, ${username}`;
+        }
+      });
+    }
+
     const backBottom = document.getElementById("go-back-chapter-btn");
     if(backBottom){
       backBottom.addEventListener("click", () =>{
@@ -142,6 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 </script>
+
+
 
 <!-- CONFIG + ENGINE -->
 <script>
