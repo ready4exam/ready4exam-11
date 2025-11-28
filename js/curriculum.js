@@ -956,7 +956,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Drainage System",
-        "table_id": "Ch 3",
+        "table_id": "drainage_system_11_quiz",
         "section": "Humanities"
       },
       {
