@@ -549,7 +549,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Internal Trade",
-        "table_id": "Ch 3",
+        "table_id": "internal_trade_11_quiz",
         "section": "Commerce"
       },
       {
