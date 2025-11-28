@@ -195,7 +195,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Cell Cycle and Cell Division",
-        "table_id": "Ch 10",
+        "table_id": "cell_division_11_quiz",
         "section": "Science"
       },
       {
