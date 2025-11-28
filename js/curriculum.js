@@ -843,7 +843,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Doing Sociology: Research Methods",
-        "table_id": "Ch 5",
+        "table_id": "doing_methods_quiz",
         "section": "Humanities"
       }
     ],
