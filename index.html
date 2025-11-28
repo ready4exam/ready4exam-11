@@ -62,18 +62,16 @@ body{
 .fade-in{animation:fade .6s ease forwards;opacity:0;}
 @keyframes fade{to{opacity:1}}
 
-
 /* ────────────────────────────────────────────────
-   FINAL MOBILE FIX (vertical stacking + more height)
-   DOES NOT AFFECT LAPTOP / DESKTOP
+   MOBILE FIX (vertical stacking + more height)
+   DOES NOT CHANGE LAPTOP LAYOUT
    ──────────────────────────────────────────────── */
 @media(max-width: 768px) {
 
+  /* DO NOT touch display here, so Tailwind .hidden works */
   #stream-section {
-    display:flex;
-    flex-direction:column;
     gap:24px;
-    padding-bottom:40vh;     /* removes bottom empty blank space */
+    padding-bottom:40vh;     /* adds length so bottom isn’t empty */
   }
 
   .subject-card{
@@ -105,7 +103,7 @@ body{
      Select your stream to get started.
   </p>
 
-  <!-- Streams -->
+  <!-- Stream selection (works on laptop & mobile) -->
   <div id="stream-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
     <div onclick="showSubjects('Science')" class="subject-card">
@@ -153,7 +151,9 @@ body{
     </button>
 
     <h3 id="selected-stream-title" class="text-2xl font-extrabold text-cbse-blue text-center my-4"></h3>
-    <div id="subject-grid" class="grid gap-5"></div>
+
+    <!-- Now multi-column on laptop, stacked on mobile -->
+    <div id="subject-grid" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3"></div>
   </div>
 </main>
 
@@ -174,6 +174,7 @@ const subjectGrid=document.getElementById("subject-grid");
 const streamTitle=document.getElementById("selected-stream-title");
 
 window.showSubjects=function(stream){
+  // hide stream cards, show subjects
   streamSection.classList.add("hidden");
   subjectSection.classList.remove("hidden");
   streamTitle.textContent=`${stream} Stream — Subjects`;
@@ -205,7 +206,11 @@ window.showSubjects=function(stream){
   lucide.createIcons();
 };
 
-window.backToStreams=()=>{ subjectSection.classList.add("hidden"); streamSection.classList.remove("hidden"); };
+window.backToStreams=()=>{ 
+  subjectSection.classList.add("hidden"); 
+  streamSection.classList.remove("hidden"); 
+};
+
 lucide.createIcons();
 </script>
 
