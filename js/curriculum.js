@@ -983,7 +983,7 @@ export const curriculum = {
     "Practical Work in Geography Part I": [
       {
         "chapter_title": "Introduction to Maps",
-        "table_id": "Ch 1",
+        "table_id": "introduction_maps_11_quiz",
         "section": "Humanities"
       },
       {
