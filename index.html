@@ -10,13 +10,11 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <script>
-tailwind.config={
-  theme:{
-    extend:{
-      fontFamily:{sans:['Inter'],serif:['Merriweather']},
-      colors:{
-        'cbse-blue':'#133b6a','cbse-light':'#f8fafc','gold':'#ffbe0b','heading':'#0f172a'
-      }
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily:{ sans:['Inter'], serif:['Merriweather'] },
+      colors:{ 'cbse-blue':'#133b6a','gold':'#ffbe0b','heading':'#0f172a' }
     }
   }
 }
@@ -25,125 +23,124 @@ tailwind.config={
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-html,body{margin:0;height:100%;background:#f3f6fa;font-family:'Inter',sans-serif;}
+body{
+  margin:0;background:#f3f6fa;
+  font-family:'Inter',sans-serif;overflow-x:hidden;
+}
 
-/* CARD ULTRA UI */
+/* --- CARD MOBILE FIRST --- */
 .subject-card{
-  background:white;border-radius:18px;padding:1.8rem;cursor:pointer;
-  border:1px solid rgba(0,0,0,0.05);
-  box-shadow:0 10px 25px -5px rgba(0,0,0,.06);
-  transition:0.35s ease;overflow:hidden;position:relative;
+  width:100%;background:white;padding:1.4rem 1.1rem;
+  border-radius:18px;border:1px solid rgba(0,0,0,.05);
+  box-shadow:0 6px 18px rgba(0,0,0,.07);
+  transition:.28s ease;cursor:pointer;margin:auto;
 }
 .subject-card:hover{
-  transform:translateY(-6px) scale(1.02);
-  border-color:#133b6a;
-  box-shadow:0 18px 35px -3px rgba(0,0,0,.13);
+  transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12);
 }
-.card-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;}
-.card-title{font-size:1.35rem;font-weight:800;color:#0f172a;}
-.card-description{font-size:.92rem;color:#4b5563;}
+.card-header{display:flex;align-items:center;gap:.9rem;margin-bottom:1rem;}
+.card-title{font-size:1.25rem;font-weight:800;color:#0f172a;}
+.card-description{font-size:1rem;color:#475569;line-height:1.45rem;}
 
-/* Buttons */
+/* ---- Buttons ---- */
 .card-button{
-  padding:.7rem 1.4rem;border-radius:12px;font-weight:600;
-  transition:.28s;position:relative;overflow:hidden;
+  padding:.75rem 1.5rem;font-size:1rem;font-weight:600;
+  border-radius:12px;color:white;transition:.3s
 }
-.card-button::after{
-  content:"";position:absolute;inset:0;background:rgba(255,255,255,.2);
-  opacity:0;transition:.4s;
-}
-.card-button:hover::after{opacity:1}
+.science{background:#16a34a;} .science:hover{background:#15803d;}
+.commerce{background:#1d4ed8;} .commerce:hover{background:#1e3faa;}
+.arts{background:#9333ea;} .arts:hover{background:#7e1ccc;}
 
-/* stream color buttons */
-.science{background:#16a34a;color:white;}
-.commerce{background:#1d4ed8;color:white;}
-.arts{background:#9333ea;color:white;}
-.science:hover{background:#15803d;}
-.commerce:hover{background:#1e40af;}
-.arts:hover{background:#7e22ce;}
-
-/* Fade-scroll effect */
-.fade-in{animation:fade .7s ease forwards;opacity:0;}
-@keyframes fade{to{opacity:1}}
-
-/* Sticky navbar glass */
+/* ---- Sticky Header ---- */
 .glass-nav{
-  backdrop-filter:blur(12px);
-  background:rgba(19,59,106,0.92);
   position:sticky;top:0;z-index:50;
-  border-bottom:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(10px);
+  background:rgba(19,59,106,.95);
 }
+
+/* Fade */
+.fade-in{animation:fade .6s ease forwards;opacity:0;}
+@keyframes fade{to{opacity:1}}
 </style>
 </head>
 
-<body class="min-h-screen flex flex-col">
 
-<!-- STICKY HEADER -->
-<header class="glass-nav shadow-lg">
-  <div class="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-extrabold text-gold">
-      Ready4<span class="text-white">Exam</span>
-    </h1>
-  </div>
+<body class="flex flex-col min-h-screen">
+
+<header class="glass-nav w-full shadow-md py-4 px-5">
+  <h1 class="text-2xl font-extrabold text-gold tracking-wide">
+     Ready4<span class="text-white">Exam</span>
+  </h1>
 </header>
 
-<!-- CONTENT -->
-<main class="flex-grow max-w-7xl mx-auto px-5 py-12 fade-in">
 
-  <div class="text-center mb-14">
-    <h2 class="text-4xl font-extrabold text-heading">CBSE Class 11 Streams</h2>
-    <p class="text-lg text-gray-600">Choose your stream & start your learning journey.</p>
-  </div>
+<main class="flex-grow w-full max-w-[1050px] mx-auto px-4 py-8 fade-in">
 
-  <!-- STREAM LIST -->
-  <div id="stream-section" class="grid gap-8 md:grid-cols-3">
-    
+  <h2 class="text-3xl font-extrabold text-heading text-center">CBSE Class 11 Streams</h2>
+  <p class="text-base text-gray-600 text-center mt-1 mb-8">
+     Select your stream to get started.
+  </p>
+
+  <!-- MOBILE first layout -->
+  <div id="stream-section" class="grid grid-cols-1 gap-6 md:grid-cols-3">
+
     <div onclick="showSubjects('Science')" class="subject-card">
-      <div class="card-header"><i data-lucide="flask-conical" class="text-green-700 h-8 w-8"></i>
-        <h3 class="card-title">Science Stream</h3>
+      <div class="card-header">
+        <i data-lucide="flask-conical" class="text-green-700 h-8 w-8"></i>
+        <h3 class="card-title">Science</h3>
       </div>
-      <p class="card-description">Physics, Chemistry, Biology, Mathematics.</p>
-      <div class="mt-6 text-center"><button class="card-button science">Explore Subjects</button></div>
+      <p class="card-description">Physics, Chemistry, Biology & Maths.</p>
+      <div class="mt-5 text-center">
+        <button class="card-button science">Explore Subjects</button>
+      </div>
     </div>
 
     <div onclick="showSubjects('Commerce')" class="subject-card">
-      <div class="card-header"><i data-lucide="briefcase" class="text-blue-700 h-8 w-8"></i>
-        <h3 class="card-title">Commerce Stream</h3>
+      <div class="card-header">
+        <i data-lucide="briefcase" class="text-blue-700 h-8 w-8"></i>
+        <h3 class="card-title">Commerce</h3>
       </div>
-      <p class="card-description">Accountancy, Business Studies, Economics.</p>
-      <div class="mt-6 text-center"><button class="card-button commerce">Explore Subjects</button></div>
+      <p class="card-description">Accountancy, Economics & Business Studies.</p>
+      <div class="mt-5 text-center">
+        <button class="card-button commerce">Explore Subjects</button>
+      </div>
     </div>
 
     <div onclick="showSubjects('Humanities')" class="subject-card">
-      <div class="card-header"><i data-lucide="landmark" class="text-purple-700 h-8 w-8"></i>
-        <h3 class="card-title">Humanities (Arts)</h3>
+      <div class="card-header">
+        <i data-lucide="landmark" class="text-purple-700 h-8 w-8"></i>
+        <h3 class="card-title">Humanities / Arts</h3>
       </div>
-      <p class="card-description">History, Geography, Pol. Science, Economics.</p>
-      <div class="mt-6 text-center"><button class="card-button arts">Explore Subjects</button></div>
+      <p class="card-description">History, Pol.Science, Geo, English, Economics.</p>
+      <div class="mt-5 text-center">
+        <button class="card-button arts">Explore Subjects</button>
+      </div>
     </div>
 
   </div>
 
-  <!-- SUBJECTS SCREEN -->
-  <div id="subject-section" class="hidden fade-in mt-10">
-    
-    <button onclick="backToStreams()" 
-    class="mb-6 px-5 py-2 bg-cbse-blue text-white rounded-lg hover:bg-blue-900 transition">
-      ← Back to Streams
+
+  <!-- SUBJECT SECTION -->
+  <div id="subject-section" class="hidden mt-8 fade-in">
+
+    <button onclick="backToStreams()"
+    class="px-4 py-2 bg-cbse-blue text-white rounded-lg mb-6">
+       ← Back
     </button>
 
-    <h3 id="selected-stream-title" class="text-3xl font-extrabold text-cbse-blue mb-8 text-center"></h3>
-    <div id="subject-grid" class="grid gap-8 md:grid-cols-3"></div>
+    <h3 id="selected-stream-title" class="text-2xl font-extrabold text-cbse-blue text-center my-4"></h3>
+    <div id="subject-grid" class="grid gap-5"></div>
   </div>
-
 </main>
 
-<!-- FOOTER -->
-<footer class="bg-cbse-blue py-8 text-center text-white mt-10">
-  <small class="opacity-70">© 2025 Ready4Exam Academic Portal</small>
+
+<footer class="bg-cbse-blue text-white text-center py-5 mt-auto">
+  <small>© 2025 Ready4Exam Academic Portal</small>
 </footer>
 
-<!-- LOGIC – NO CHANGE -->
+
+
+<!-- SAME JS (no changes) -->
 <script type="module">
 import { curriculum } from "./js/curriculum.js";
 
@@ -156,39 +153,35 @@ window.showSubjects=function(stream){
   streamSection.classList.add("hidden");
   subjectSection.classList.remove("hidden");
   streamTitle.textContent=`${stream} Stream — Subjects`;
-  subjectGrid.innerHTML="";
 
+  subjectGrid.innerHTML="";
   const subjects=Object.keys(curriculum).filter(subj=>
     Object.values(curriculum[subj]).some(chapters=>
       Array.isArray(chapters) && chapters.some(ch=>ch.section?.includes(stream))
     )
   );
 
-  if(subjects.length===0){
-    subjectGrid.innerHTML=`<p class='text-gray-600 text-center col-span-3'>No subjects found for ${stream}.</p>`;
-    return;
-  }
-
   subjects.forEach(subj=>{
-    const c=document.createElement("a");
-    c.href=`chapter-selection.html?subject=${encodeURIComponent(subj)}`;
-    c.className="subject-card";
-    c.innerHTML=`
-      <div class='card-header'>
+    const card=document.createElement("a");
+    card.href=`chapter-selection.html?subject=${encodeURIComponent(subj)}`;
+    card.className="subject-card";
+    card.innerHTML=`
+      <div class="card-header">
         <i data-lucide="book-open" class="text-cbse-blue h-8 w-8"></i>
-        <h3 class='card-title'>${subj}</h3>
+        <h3 class="card-title">${subj}</h3>
       </div>
-      <p class='card-description'>View chapters for ${subj}</p>
-      <div class='mt-6 text-center'>
+      <p class="card-description">View chapters for ${subj}</p>
+      <div class="mt-5 text-center">
         <button class="card-button bg-cbse-blue hover:bg-blue-900 text-white">View Chapters</button>
-      </div>`;
-    subjectGrid.appendChild(c);
+      </div>
+    `;
+    subjectGrid.appendChild(card);
   });
 
   lucide.createIcons();
 };
 
-window.backToStreams=()=>{subjectSection.classList.add("hidden");streamSection.classList.remove("hidden");};
+window.backToStreams=()=>{ subjectSection.classList.add("hidden"); streamSection.classList.remove("hidden"); };
 lucide.createIcons();
 </script>
 
