@@ -924,7 +924,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Water in the Atmosphere",
-        "table_id": "Ch 10",
+        "table_id": "water_atmosphere_11_quiz",
         "section": "Humanities"
       },
       {
