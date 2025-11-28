@@ -175,7 +175,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Anatomy of Flowering Plants",
-        "table_id": "Ch 6",
+        "table_id": "anatomy_plants_11_quiz",
         "section": "Science"
       },
       {
