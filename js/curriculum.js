@@ -732,7 +732,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Rights in the Indian Constitution",
-        "table_id": "Ch 2",
+        "table_id": "rights_constitution_11_quiz",
         "section": "Humanities"
       },
       {
