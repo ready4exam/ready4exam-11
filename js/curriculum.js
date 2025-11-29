@@ -365,7 +365,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Discovering Tut: the Saga Continues",
-        "table_id": "Ch 4",
+        "table_id": "discovering_continues_11_quiz",
         "section": "Science/Commerce/Humanities"
       },
       {
