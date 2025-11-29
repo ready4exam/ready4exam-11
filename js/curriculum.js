@@ -799,7 +799,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Nationalism",
-        "table_id": "Ch 7",
+        "table_id": "nationalism_nationalism_11_quiz",
         "section": "Humanities"
       },
       {
