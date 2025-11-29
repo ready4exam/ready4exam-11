@@ -326,7 +326,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Limits and Derivatives",
-        "table_id": "Ch 4",
+        "table_id": "limits_derivatives_11_quiz",
         "section": "Science/Commerce"
       },
       {
