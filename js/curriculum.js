@@ -737,7 +737,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Election and Representation",
-        "table_id": "Ch 3",
+        "table_id": "election_representation_11_quiz",
         "section": "Humanities"
       },
       {
