@@ -762,7 +762,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Local Governments",
-        "table_id": "Ch 8",
+        "table_id": "local_governments_11_quiz",
         "section": "Humanities"
       }
     ],
