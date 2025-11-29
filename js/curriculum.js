@@ -789,7 +789,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Rights",
-        "table_id": "Ch 5",
+        "table_id": "rights_rights_11_quiz",
         "section": "Humanities"
       },
       {
