@@ -350,7 +350,7 @@ export const curriculum = {
     "Hornbill (Textbook)": [
       {
         "chapter_title": "The Portrait of a Lady",
-        "table_id": "Ch 1",
+        "table_id": "portrait_lady_11_quiz",
         "section": "Science/Commerce/Humanities"
       },
       {
