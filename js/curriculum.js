@@ -299,7 +299,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Binomial Theorem",
-        "table_id": "Ch 8",
+        "table_id": "binomial_theorem_11_quiz",
         "section": "Science/Commerce"
       },
       {
