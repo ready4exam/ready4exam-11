@@ -804,7 +804,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Secularism",
-        "table_id": "Ch 8",
+        "table_id": "secularism_secularism_11_quiz",
         "section": "Humanities"
       },
       {
