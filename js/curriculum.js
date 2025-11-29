@@ -742,7 +742,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Executive",
-        "table_id": "Ch 4",
+        "table_id": "executive_executive_11_quiz",
         "section": "Humanities"
       },
       {
