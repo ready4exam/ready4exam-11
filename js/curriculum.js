@@ -336,7 +336,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Statistics",
-        "table_id": "Ch 6",
+        "table_id": "statistics_statistics_11_quiz",
         "section": "Science/Commerce"
       },
       {
