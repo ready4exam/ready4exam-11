@@ -784,7 +784,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Social Justice",
-        "table_id": "Ch 4",
+        "table_id": "social_justice_11_quiz",
         "section": "Humanities"
       },
       {
