@@ -809,7 +809,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Peace",
-        "table_id": "Ch 9",
+        "table_id": "peace_peace_11_quiz",
         "section": "Humanities"
       },
       {
