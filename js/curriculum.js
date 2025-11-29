@@ -757,7 +757,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Federalism",
-        "table_id": "Ch 7",
+        "table_id": "federalism_federalism_11_quiz",
         "section": "Humanities"
       },
       {
