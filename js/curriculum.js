@@ -794,7 +794,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Citizenship",
-        "table_id": "Ch 6",
+        "table_id": "citizenship_citizenship_11_quiz",
         "section": "Humanities"
       },
       {
