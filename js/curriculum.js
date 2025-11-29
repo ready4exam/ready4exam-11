@@ -747,7 +747,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Legislature",
-        "table_id": "Ch 5",
+        "table_id": "legislature_legislature_11_quiz",
         "section": "Humanities"
       },
       {
