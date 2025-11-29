@@ -360,7 +360,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "We’re Not Afraid to Die... if we can all be together",
-        "table_id": "Ch 3",
+        "table_id": "we_together_11_quiz",
         "section": "Science/Commerce/Humanities"
       },
       {
