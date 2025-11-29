@@ -769,7 +769,7 @@ export const curriculum = {
     "Political Theory": [
       {
         "chapter_title": "Political Theory: An Introduction",
-        "table_id": "Ch 1",
+        "table_id": "political_introduction_11_quiz",
         "section": "Humanities"
       },
       {
