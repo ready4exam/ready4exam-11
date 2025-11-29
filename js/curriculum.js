@@ -779,7 +779,7 @@ export const curriculum = {
       },
       {
         "chapter_title": "Equality",
-        "table_id": "Ch 3",
+        "table_id": "equality_equality_11_quiz",
         "section": "Humanities"
       },
       {
